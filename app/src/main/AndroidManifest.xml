@@ -15,6 +15,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".prof_login" />
+        <activity android:name=".prof_reg" />
+        <activity android:name=".std_login" />
+        <activity android:name=".std_reg"></activity>
     </application>
 
 </manifest>
