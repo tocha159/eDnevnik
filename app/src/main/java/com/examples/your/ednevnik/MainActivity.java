@@ -1,10 +1,13 @@
 package com.examples.your.ednevnik;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+
+import com.examples.your.ednevnik.Login.ProfesorLogin;
+import com.examples.your.ednevnik.Login.StudentLogin;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,16 +25,17 @@ public class MainActivity extends AppCompatActivity {
         prof.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Intent profIntent= new Intent(MainActivity.this,prof_login.class);
-                MainActivity.this.startActivity(profIntent);
+                Intent profIntent= new Intent(MainActivity.this, ProfesorLogin.class);
+                startActivity(profIntent);
+                finish();
             }
         });
 
         std.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Intent stdIntent= new Intent(MainActivity.this,std_login.class);
-                MainActivity.this.startActivity(stdIntent);
+                Intent stdIntent= new Intent(MainActivity.this,StudentLogin.class);
+                startActivity(stdIntent);
             }
         });
     }

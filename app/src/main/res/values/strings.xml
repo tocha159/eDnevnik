@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">Ednevnik</string>
+    <string name="Login">Prijava</string>
+    <string name="registracija">Registracija</string>
+    <string name="surname">Prezime</string>
+    <string name="name">Ime</string>
+    <string name="username">Korisničko ime</string>
+    <string name="password">Lozinka</string>
+    <string name="create_account">Registriraj se</string>
+    <string name="message_info_noinput">Niste popunili sva polja</string>
+    <string name="message_info_succregister">Uspiješno ste se registrirali</string>
+    <string name="message_info_alreadyreg">Korisničko ime je već u upotrebi</string>
+    <string name="message_info_incorrect_data">Netočni korisnički podaci!!</string>
+    <string name="message_info_correct_data">Uspiješna prijava!!</string>
+    <string name="message_infoprogress_wait">Molimo pričekajte...</string>
+
+
 </resources>
