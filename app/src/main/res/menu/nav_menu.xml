@@ -3,18 +3,22 @@
         <item android:title="Predmeti">
             <menu>
                 <item
+
                     android:id="@+id/add_subject"
-                    android:title="Dodaj predmet"/>
+                    android:title="Dodaj predmet"
+                    android:icon="@android:drawable/ic_input_add" />
             </menu>
          </item>
     <item android:title="Ucenici">
         <menu>
             <item
+                android:icon="@android:drawable/ic_input_add"
                 android:id="@+id/add_student"
                 android:title="Dodaj učenika"/>
             <item
                 android:id="@+id/view_student"
-                android:title="Pregled ucenika"/>
+                android:title="Pregled ucenika"
+                android:icon="@android:drawable/ic_input_get" />
         </menu>
     </item>
 
@@ -33,6 +37,7 @@
     <item android:title="Izostanci">
         <menu>
         <item android:id="@+id/id_izostanci"
+            android:icon="@android:drawable/ic_input_add"
             android:title="Izostanci"/>
 
         </menu>

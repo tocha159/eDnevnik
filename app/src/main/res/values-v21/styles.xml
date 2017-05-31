@@ -16,9 +16,12 @@
                 <item name="colorButtonNormal">@color/monsoon</item>
                 <item name="android:colorButtonNormal">@color/monsoon</item>
         </style>
-        <style name="AppTheme.Dark.Dialog" parent="Theme.AppCompat.Dialog">
-                <item name="colorAccent">@color/white</item>
-                <item name="android:textColorPrimary">@color/iron</item>
-                <item name="android:background">@color/aluminum</item>
+
+        <style name="AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+                <item name="colorPrimaryDark">@color/primary_darkerr</item>
+        </style>
+
+        <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
+                <item name="colorPrimaryDark">@color/primary_darkerr</item>
         </style>
 </resources>

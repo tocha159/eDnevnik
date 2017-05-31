@@ -47,7 +47,8 @@
         <activity android:name=".Ucenik.StudentRegister"
             android:theme="@style/AppTheme.Dark">
         </activity>
-        <activity android:name=".Profesor.Navi_main">
+        <activity android:name=".Profesor.Navi_main"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
     </application>
 
