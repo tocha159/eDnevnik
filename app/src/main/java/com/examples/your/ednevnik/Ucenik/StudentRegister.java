@@ -1,4 +1,4 @@
-package com.examples.your.ednevnik.Register;
+package com.examples.your.ednevnik.Ucenik;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,7 +16,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.examples.your.ednevnik.Constants;
-import com.examples.your.ednevnik.Login.StudentLogin;
 import com.examples.your.ednevnik.Model.Student;
 import com.examples.your.ednevnik.R;
 import com.orm.SugarContext;
@@ -47,8 +46,6 @@ public class StudentRegister extends AppCompatActivity {
         setContentView(R.layout.activity_profesor_register);
         init();
         propertis();
-
-
 
     }
     public void init(){
@@ -83,16 +80,12 @@ public class StudentRegister extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), R.string.message_info_noinput,Toast.LENGTH_SHORT).show();
                 }
                 else {
-
-                    List<Student> student=new ArrayList<>();
-                    student = Student.find(Student.class, "username = ?", username_);
-                    if(student.isEmpty()){
+                    if(Student.find(Student.class, "username = ?", username_).isEmpty()){
                         StringRequest stringRequest=new StringRequest(Request.Method.GET, Constants.API_LINK,
                                 new Response.Listener<String>() {
                                     @Override
                                     public void onResponse(String response) {
                                         try {
-                                            boolean check =false;
                                             JSONArray json = new JSONArray(response);
                                             students=new ArrayList<>();
                                             for (int i = 0; i < json.length(); i++) {
@@ -104,14 +97,13 @@ public class StudentRegister extends AppCompatActivity {
                                                             username_,
                                                             password_);
                                                     st.save();
-                                                    check=true;
                                                     Toast.makeText(getApplicationContext(), R.string.message_info_succregister,Toast.LENGTH_SHORT).show();
+                                                    startActivity(new Intent(StudentRegister.this,StudentLogin.class));
+                                                    finish();
+                                                    return;
                                                 }
                                             }
-                                            if(!check){
-                                                Toast.makeText(getApplicationContext(), "Ovaj korisnik ne postoji",Toast.LENGTH_SHORT).show();
-
-                                            }
+                                            Toast.makeText(getApplicationContext(), "Ovaj korisnik ne postoji",Toast.LENGTH_SHORT).show();
                                         } catch (JSONException e) {
                                             e.printStackTrace();
                                         }
@@ -129,7 +121,6 @@ public class StudentRegister extends AppCompatActivity {
                     }
 
                 }
-
             }
         });
 

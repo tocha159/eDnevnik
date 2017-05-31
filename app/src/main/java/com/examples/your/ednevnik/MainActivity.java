@@ -6,8 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-import com.examples.your.ednevnik.Login.ProfesorLogin;
-import com.examples.your.ednevnik.Login.StudentLogin;
+import com.examples.your.ednevnik.Profesor.ProfesorLogin;
+import com.examples.your.ednevnik.Ucenik.StudentLogin;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,7 +20,6 @@ public class MainActivity extends AppCompatActivity {
 
         Button prof=(Button) findViewById(R.id.btn_prof);
         final Button std=(Button) findViewById(R.id.btn_std);
-
 
         prof.setOnClickListener(new View.OnClickListener(){
             @Override

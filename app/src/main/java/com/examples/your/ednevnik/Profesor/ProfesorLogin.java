@@ -1,4 +1,4 @@
-package com.examples.your.ednevnik.Login;
+package com.examples.your.ednevnik.Profesor;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,23 +10,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.examples.your.ednevnik.MainActivity;
-import com.examples.your.ednevnik.Model.Student;
+import com.examples.your.ednevnik.Model.Professor;
 import com.examples.your.ednevnik.R;
-import com.examples.your.ednevnik.Register.StudentRegister;
 import com.orm.SugarContext;
 
-import java.util.ArrayList;
-import java.util.List;
-
-/**
- * Created by PINJUH on 28.5.2017..
- */
-
-public class StudentLogin extends AppCompatActivity{
+public class ProfesorLogin extends AppCompatActivity {
     EditText input_username;
     EditText input_password;
     Button btn_login;
     TextView link_signup;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,13 +50,14 @@ public class StudentLogin extends AppCompatActivity{
                     Toast.makeText(getApplicationContext(), R.string.message_info_noinput,Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    List<Student> student=new ArrayList<>();
-                    student = Student.find(Student.class, "username = ? and password = ?", username_,password_);
-                    if(student.isEmpty()){
+                    if(Professor.find(Professor.class, "username = ? and password = ?", username_,password_).isEmpty()){
                         Toast.makeText(getApplicationContext(), R.string.message_info_incorrect_data,Toast.LENGTH_SHORT).show();
+
                     }
                     else{
                         Toast.makeText(getApplicationContext(), R.string.message_info_correct_data,Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(ProfesorLogin.this, Navi_main.class));
+                        finish();
                     }
                 }
             }
@@ -71,15 +66,17 @@ public class StudentLogin extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 //do something
-                startActivity(new Intent(StudentLogin.this, StudentRegister.class));
+                startActivity(new Intent(ProfesorLogin.this, ProfesorRegister.class));
                 finish();
             }
         });
+
     }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        startActivity(new Intent(StudentLogin.this, MainActivity.class));
+        startActivity(new Intent(ProfesorLogin.this, MainActivity.class));
         finish();
 
     }

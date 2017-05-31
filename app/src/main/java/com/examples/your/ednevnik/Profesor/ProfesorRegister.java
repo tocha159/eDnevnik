@@ -1,4 +1,4 @@
-package com.examples.your.ednevnik.Register;
+package com.examples.your.ednevnik.Profesor;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +9,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.examples.your.ednevnik.Login.ProfesorLogin;
 import com.examples.your.ednevnik.Model.Professor;
 import com.examples.your.ednevnik.R;
 import com.orm.SugarContext;
@@ -63,9 +62,7 @@ public class ProfesorRegister extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), R.string.message_info_noinput,Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    List<Professor> professor=new ArrayList<>();
-                    professor = Professor.find(Professor.class, "username = ?", username_);
-                    if(professor.isEmpty()){
+                    if(Professor.find(Professor.class, "username = ?", username_).isEmpty()){
                         Professor p=new Professor(name_,surname_,username_,password_);
                         p.save();
                         Toast.makeText(getApplicationContext(), R.string.message_info_succregister,Toast.LENGTH_SHORT).show();

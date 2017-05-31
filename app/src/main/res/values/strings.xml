@@ -1,4 +1,20 @@
 <resources>
+    <string-array name="subjects">
+        <item>Matematika</item>
+        <item>Hrvatski jezik</item>
+        <item>Fizika</item>
+        <item>Kemija</item>
+        <item>Biologija</item>
+        <item>Tijelesna i zdravstvena kultura</item>
+        <item>Zemljopis</item>
+        <item>Povijest</item>
+        <item>Informatika</item>
+        <item>Glazbena kultura</item>
+        <item>Likovna kultura</item>
+        <item>Tehnička kultura</item>
+        <item>Vjeronauk</item>
+    </string-array>
+
     <string name="app_name">Ednevnik</string>
     <string name="Login">Prijava</string>
     <string name="registracija">Registracija</string>
@@ -13,6 +29,11 @@
     <string name="message_info_incorrect_data">Netočni korisnički podaci!!</string>
     <string name="message_info_correct_data">Uspiješna prijava!!</string>
     <string name="message_infoprogress_wait">Molimo pričekajte...</string>
+
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+
+
 
 
 </resources>

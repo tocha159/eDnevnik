@@ -34,18 +34,20 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Login.ProfesorLogin"
+            android:name=".Profesor.ProfesorLogin"
             android:theme="@style/AppTheme.Dark" />
-        <activity android:name=".Register.ProfesorRegister"
+        <activity android:name=".Profesor.ProfesorRegister"
             android:theme="@style/AppTheme.Dark">
         </activity>
 
-        <activity android:name=".Login.StudentLogin"
+        <activity android:name=".Ucenik.StudentLogin"
             android:theme="@style/AppTheme.Dark">
         </activity>
 
-        <activity android:name=".Register.StudentRegister"
+        <activity android:name=".Ucenik.StudentRegister"
             android:theme="@style/AppTheme.Dark">
+        </activity>
+        <activity android:name=".Profesor.Navi_main">
         </activity>
     </application>
 
