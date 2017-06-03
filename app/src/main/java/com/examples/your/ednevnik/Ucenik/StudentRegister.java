@@ -1,7 +1,10 @@
 package com.examples.your.ednevnik.Ucenik;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -19,10 +22,14 @@ import com.examples.your.ednevnik.Constants;
 import com.examples.your.ednevnik.Model.Student;
 import com.examples.your.ednevnik.R;
 import com.orm.SugarContext;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +46,7 @@ public class StudentRegister extends AppCompatActivity {
     TextView link_login;
     RequestQueue red;
     List<Student> students;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +98,45 @@ public class StudentRegister extends AppCompatActivity {
                                             students=new ArrayList<>();
                                             for (int i = 0; i < json.length(); i++) {
                                                 if(username_.equals(json.getJSONObject(i).getString("login"))){
+                                                    Picasso.with(getApplicationContext())
+                                                            .load(json.getJSONObject(i).getString("avatar_url"))
+                                                            .into(new Target() {
+                                                                @Override
+                                                                public void onBitmapLoaded(final Bitmap bitmap, Picasso.LoadedFrom from) {
+                                                                    new Thread(new Runnable() {
+                                                                        @Override
+                                                                        public void run() {
+                                                                            File direct = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/Dnevnik");
+                                                                            if (!direct.exists()) {
+                                                                                direct.mkdirs();
+                                                                            }
+                                                                            File file = new File(Environment.getExternalStorageDirectory().getPath() +"/Dnevnik/"+username_+".jpg");
+                                                                            try
+                                                                            {
+                                                                                file.createNewFile();
+                                                                                FileOutputStream ostream = new FileOutputStream(file);
+                                                                                bitmap.compress(Bitmap.CompressFormat.JPEG, 75, ostream);
+                                                                                ostream.close();
+                                                                            }
+                                                                            catch (Exception e)
+                                                                            {
+                                                                                e.printStackTrace();
+                                                                            }
+
+                                                                        }
+                                                                    }).start();
+                                                                }
+
+                                                                @Override
+                                                                public void onBitmapFailed(Drawable errorDrawable) {
+
+                                                                }
+
+                                                                @Override
+                                                                public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+                                                                }
+                                                            });
                                                     Student st= new
                                                             Student(name_,
                                                             surname_,
@@ -97,6 +144,7 @@ public class StudentRegister extends AppCompatActivity {
                                                             username_,
                                                             password_);
                                                     st.save();
+
                                                     Toast.makeText(getApplicationContext(), R.string.message_info_succregister,Toast.LENGTH_SHORT).show();
                                                     startActivity(new Intent(StudentRegister.this,StudentLogin.class));
                                                     finish();
@@ -123,7 +171,5 @@ public class StudentRegister extends AppCompatActivity {
                 }
             }
         });
-
     }
-
 }
