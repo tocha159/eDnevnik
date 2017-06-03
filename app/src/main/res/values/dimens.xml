@@ -1,5 +1,14 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="activity_horizontal_margin">48dp</dimen>
+    <dimen name="activity_vertical_margin">48dp</dimen>
+
+    <dimen name="color_picker_button_size">24dp</dimen>
+    <dimen name="color_picker_button_margin">8dp</dimen>
+
+    <dimen name="icon_left_padding">16dp</dimen>
+    <dimen name="item_left_padding">72dp</dimen>
+    <dimen name="item_right_padding">16dp</dimen>
+    <dimen name="list_top_padding">8dp</dimen>
+
 </resources>

@@ -1,8 +1,10 @@
 package com.examples.your.ednevnik.Profesor;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,6 +21,7 @@ public class ProfesorLogin extends AppCompatActivity {
     EditText input_password;
     Button btn_login;
     TextView link_signup;
+    SharedPreferences prefs;
 
 
 
@@ -36,6 +39,7 @@ public class ProfesorLogin extends AppCompatActivity {
         input_password= (EditText) findViewById(R.id.input_password);
         btn_login= (Button) findViewById(R.id.btn_login);
         link_signup= (TextView) findViewById(R.id.link_signup);
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
     }
     public void propertis(){
 
@@ -55,6 +59,7 @@ public class ProfesorLogin extends AppCompatActivity {
 
                     }
                     else{
+                        prefs.edit().putLong("profid",Professor.find(Professor.class, "username = ? and password = ?", username_,password_).get(0).getId());
                         Toast.makeText(getApplicationContext(), R.string.message_info_correct_data,Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(ProfesorLogin.this, Navi_main.class));
                         finish();

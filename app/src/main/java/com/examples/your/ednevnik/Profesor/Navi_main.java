@@ -9,7 +9,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-
 import com.examples.your.ednevnik.R;
 
 public class Navi_main extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
@@ -54,6 +53,8 @@ public class Navi_main extends AppCompatActivity implements NavigationView.OnNav
         int id = item.getItemId();
 
         if (id == R.id.add_subject) {
+            //startActivity(new Intent(Navi_main.this,Dodaj_predmet.class));
+            fm.beginTransaction().replace(R.id.content_frame,new PregledPredmeta()).commit();
         }else if (id == R.id.add_student) {
 
         }else if (id == R.id.view_student) {
