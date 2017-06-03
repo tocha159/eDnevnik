@@ -1,0 +1,32 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.examples.your.ednevnik.Profesor.PregledPredmeta">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ListView
+            android:id="@+id/pregled_predmeta"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </ListView>
+        <android.support.design.widget.FloatingActionButton
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/predmet_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fabSize="normal"
+            app:srcCompat="@android:drawable/ic_input_add"
+            app:backgroundTint="@android:color/holo_blue_light"
+            android:tint="@color/accent"
+            app:elevation="12dp" />
+    </RelativeLayout>
+
+</FrameLayout>

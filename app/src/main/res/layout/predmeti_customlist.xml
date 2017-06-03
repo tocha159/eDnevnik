@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <TextView
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/naziv_predmeta"
+        android:text="kakojeeee"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/predmet_color"
+        android:layout_toRightOf="@+id/predmet_color"
+        android:layout_toEndOf="@+id/predmet_color"
+        android:layout_marginLeft="20dp"/>
+
+    <ImageView
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:id="@+id/predmet_color"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/aluminum" />
+        />
+    <TextView
+        android:textSize="24sp"
+        android:textAllCaps="true"
+        android:id="@+id/image_text"
+        android:textColor="#FFFFFF"
+        android:layout_alignLeft="@+id/predmet_color"
+        android:layout_alignTop="@+id/predmet_color"
+        android:layout_alignRight="@+id/predmet_color"
+        android:layout_alignBottom="@+id/predmet_color"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="1dp"
+        android:gravity="center"
+        />
+
+
+</RelativeLayout>
