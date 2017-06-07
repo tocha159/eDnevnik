@@ -48,6 +48,7 @@
             android:theme="@style/AppTheme.Dark"></activity>
         <activity
             android:name=".Profesor.Navi_main"
+            android:windowSoftInputMode="adjustPan"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
 
         <activity android:name=".Profesor.Dodaj_predmet"

@@ -59,7 +59,7 @@ public class Navi_main extends AppCompatActivity implements NavigationView.OnNav
             fm.beginTransaction().replace(R.id.content_frame,new DodajStudente()).commit();
 
         }else if (id == R.id.view_student) {
-
+            fm.beginTransaction().replace(R.id.content_frame,new PregledStudenata()).commit();
 
         }else if (id == R.id.id_ocjeni) {
 
