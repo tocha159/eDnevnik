@@ -82,6 +82,7 @@ public class Dodaj_predmet extends AppCompatActivity implements SpectrumPalette.
             }
         });
 
+
     }
 
     @Override

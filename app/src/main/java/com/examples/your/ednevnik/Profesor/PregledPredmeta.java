@@ -1,7 +1,9 @@
 package com.examples.your.ednevnik.Profesor;
 
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -12,12 +14,15 @@ import android.support.v7.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.examples.your.ednevnik.Model.Predmet;
+import com.examples.your.ednevnik.Model.Razred;
 import com.examples.your.ednevnik.R;
 
 import java.util.List;
@@ -44,6 +49,7 @@ public class PregledPredmeta extends android.app.Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v=inflater.inflate(R.layout.fragment_pregled_predmeta, container, false);
+        getActivity().setTitle("Dodavanje predmeta");
         prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         pregled_predmeta= (ListView) v.findViewById(R.id.pregled_predmeta);
         predmet_add= (FloatingActionButton) v.findViewById(R.id.predmet_add);
@@ -69,6 +75,46 @@ public class PregledPredmeta extends android.app.Fragment {
 
             }
         });
+        pregled_predmeta.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+                AlertDialog.Builder builder=new AlertDialog.Builder(getActivity());
+                builder.setTitle("Obrišite");
+                builder.setMessage("Brisanjem predmeta "+adapter.getItem(position).getNaziv_predmeta()+" obrisat će te sve informacije,uključujući i učenike za taj predmet");
+
+                builder.setPositiveButton("DA", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        try {
+                            //prvo obrisati razrede zbog stranog kljuca, a tek onda predmete
+                            for (Razred raz : Razred.find(Razred.class, "predmet = ?", String.valueOf(adapter.getItem(position).getId()))) {
+                                raz.delete();
+                            }
+                            Predmet p = Predmet.findById(Predmet.class, adapter.getItem(position).getId());
+                            p.delete();
+                            Toast.makeText(getActivity(),"Uspiješno ste obrisali predmet "+ adapter.getItem(position).getNaziv_predmeta(),Toast.LENGTH_LONG).show();
+
+                            adapter.remove(adapter.getItem(position));
+                            adapter.notifyDataSetChanged();
+                        }catch (Exception e){
+                            Toast.makeText(getActivity(),"Dogodila se neočekivana greška: "+e.getMessage(),Toast.LENGTH_LONG).show();
+
+                        }
+                    }
+
+                });
+
+                builder.setNegativeButton("NE", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.show();
+                return true;
+            }
+        });
+
 
         return v;
     }

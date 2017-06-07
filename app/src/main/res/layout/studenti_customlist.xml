@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:descendantFocusability="blocksDescendants"
+    android:layout_height="match_parent"
+    >
+
+    <ImageView
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:scaleType="centerCrop"
+        android:id="@+id/student_avatar"
+        android:src="@drawable/logo"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp" />
+
+    <TextView
+        android:textColor="@color/Black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Tomislav Pinjuh"
+        android:id="@+id/student_info"
+        android:layout_alignTop="@+id/student_avatar"
+        android:layout_toRightOf="@+id/student_avatar"
+        android:layout_toEndOf="@+id/student_avatar"
+        android:layout_marginLeft="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="tocha"
+        android:id="@+id/student_username"
+        android:layout_below="@+id/student_info"
+        android:layout_alignLeft="@+id/student_info"
+        android:layout_alignStart="@+id/student_info"
+        android:layout_marginTop="5dp" />
+
+    <CheckBox
+        android:clickable="false"
+        android:focusable="false"
+        android:id="@+id/odabrani_student"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+
+</RelativeLayout>

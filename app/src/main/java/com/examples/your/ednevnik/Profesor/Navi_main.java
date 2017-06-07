@@ -56,8 +56,10 @@ public class Navi_main extends AppCompatActivity implements NavigationView.OnNav
             //startActivity(new Intent(Navi_main.this,Dodaj_predmet.class));
             fm.beginTransaction().replace(R.id.content_frame,new PregledPredmeta()).commit();
         }else if (id == R.id.add_student) {
+            fm.beginTransaction().replace(R.id.content_frame,new DodajStudente()).commit();
 
         }else if (id == R.id.view_student) {
+
 
         }else if (id == R.id.id_ocjeni) {
 
