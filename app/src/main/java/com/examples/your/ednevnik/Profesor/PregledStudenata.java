@@ -1,8 +1,11 @@
 package com.examples.your.ednevnik.Profesor;
 
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -10,6 +13,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v7.preference.PreferenceManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,10 +32,13 @@ import com.examples.your.ednevnik.Model.Predmet;
 import com.examples.your.ednevnik.Model.Razred;
 import com.examples.your.ednevnik.Model.Student;
 import com.examples.your.ednevnik.R;
+import com.pkmmte.view.CircularImageView;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -42,6 +50,8 @@ public class PregledStudenata extends android.app.Fragment {
     SpinnerAdapter spinnerAdapter;
     StudentAdapter studentAdapter;
     SharedPreferences prefs;
+    AlertDialog.Builder builderSingle;
+
 
 
 
@@ -55,6 +65,35 @@ public class PregledStudenata extends android.app.Fragment {
         predmet_odb= (Spinner) v.findViewById(R.id.predmet_odb);
         studenti_get= (ListView) v.findViewById(R.id.studenti_get);
         new GetAll().execute();
+        builderSingle = new AlertDialog.Builder(getActivity());
+        builderSingle.setTitle("Odaberite opciju");
+
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1);
+        arrayAdapter.add("Vidi profil");
+        arrayAdapter.add("Ocjeni");
+        arrayAdapter.add("Zapiši izostanak");
+        arrayAdapter.add("Zaključi ocjenu");
+
+        builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case 0: // vidi profil
+                        break;
+                    case 1: // ocjeni
+                        Intent i=new Intent(getActivity(),DodajOcijenu.class);
+                        startActivity(i);
+                        break;
+                    case 2: // zapisi izostanak
+                        Intent j=new Intent(getActivity(),DodajIzostanak.class);
+                        startActivity(j);
+                        break;
+                    case 3: // zakljuci ocjenu
+                        break;
+
+                }
+            }
+        });
     }
     public void properties(){
         predmet_odb.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -62,16 +101,69 @@ public class PregledStudenata extends android.app.Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 studentAdapter=new StudentAdapter(getActivity(),R.layout.studenti_customlist_all,Razred.find(Razred.class,"predmet = ?",String.valueOf(spinnerAdapter.getItem(position).getId())));
                 studenti_get.setAdapter(studentAdapter);
+                studentAdapter.filter(ucenik_input.getText().toString());
+
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
+       ucenik_input.addTextChangedListener(new TextWatcher() {
+           @Override
+           public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+           }
+
+           @Override
+           public void onTextChanged(CharSequence s, int start, int before, int count) {
+               studentAdapter.filter(s.toString());
+
+           }
+
+           @Override
+           public void afterTextChanged(Editable s) {
+
+           }
+       });
+        studenti_get.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+                Predmet p= (Predmet) predmet_odb.getSelectedItem();
+                AlertDialog.Builder builder=new AlertDialog.Builder(getActivity());
+                builder.setTitle("Odaberite opciju");
+                builder.setMessage("Jeste li sigurno da želite ukloniti učenika iz predmeta "+p.getNaziv_predmeta()+"?");
+
+                builder.setNegativeButton("Ne", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+
+                    }
+                });
+                builder.setPositiveButton("DA", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Razred razred=studentAdapter.getItem(position);
+                        try {
+                            Razred r = Razred.findById(Razred.class,razred.getId());
+                            r.delete();
+                            Toast.makeText(getActivity(),"Uspiješno ste obrisali učenika",Toast.LENGTH_SHORT).show();
+                        }catch (Exception e){
+                            Toast.makeText(getActivity(),"Ne možete obrisati učenika jer postoje zapisi(ocjene, izostanci)",Toast.LENGTH_SHORT).show();
+                        }
+                        studentAdapter.remove(razred);
+                        studentAdapter.filter.remove(razred);
+                        studenti_get.setAdapter(studentAdapter);
+
+                        dialog.dismiss();
+                    }
+                });
+                builder.show();
+                return true;
+            }
+        });
     }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -117,6 +209,7 @@ public class PregledStudenata extends android.app.Fragment {
             naziv_predmeta.setText(predmet.getNaziv_predmeta());
             image_text.setText(String.valueOf(predmet.getNaziv_predmeta().charAt(0)));
             predmet_color.setBackgroundColor(Color.parseColor(predmet.getBoja()));
+
             return convertView;
 
         }
@@ -124,11 +217,30 @@ public class PregledStudenata extends android.app.Fragment {
     private class StudentAdapter extends ArrayAdapter<Razred>{
         private int resource;
         private List<Razred> razredi;
+        private List<Razred>filter;
 
         public StudentAdapter(Context context, int resource, List<Razred> objects) {
             super(context,resource,objects);
             this.resource=resource;
             razredi=objects;
+            filter=new ArrayList<>();
+            filter.addAll(this.razredi);
+
+        }
+        public void filter (String text){
+            text=text.toLowerCase(Locale.getDefault());
+            razredi.clear();
+            if(text.length()==0){
+                razredi.addAll(filter);
+            }
+            else {
+                for (Razred r:filter) {
+                    if(r.getStudent().getSurname().toLowerCase(Locale.getDefault()).contains(text)){
+                        razredi.add(r);
+                    }
+                }
+            }
+            notifyDataSetChanged();
         }
 
         @Override
@@ -136,14 +248,14 @@ public class PregledStudenata extends android.app.Fragment {
             if(convertView == null){
                 convertView = LayoutInflater.from(getContext()).inflate(resource, null);
             }
-            Razred razred=razredi.get(position);
+            final Razred razred=razredi.get(position);
 
-            ImageView student_avatar= (ImageView) convertView.findViewById(R.id.student_avatar);
+            CircularImageView student_avatar= (CircularImageView) convertView.findViewById(R.id.student_avatar);
             TextView student_info= (TextView) convertView.findViewById(R.id.student_info);
             TextView student_username= (TextView) convertView.findViewById(R.id.student_username);
             ImageButton student_settigs= (ImageButton) convertView.findViewById(R.id.odabrani_settings);
 
-            Student student=Student.findById(Student.class,razred.getStudent().getId());
+            final Student student=Student.findById(Student.class,razred.getStudent().getId());
 
 
             File file = new File(Environment.getExternalStorageDirectory().getPath() +"/Dnevnik/"+student.getUsername()+".jpg");
@@ -153,16 +265,39 @@ public class PregledStudenata extends android.app.Fragment {
             student_info.setText(student.getName()+" "+student.getSurname());
             student_username.setText(student.getUsername());
 
+            student_settigs.setTag(position);
+            student_settigs.setOnClickListener(mMyButtonClickListener);
+
+
+            /*
             student_settigs.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(getContext(),"bravoo",Toast.LENGTH_SHORT).show();
+                    convertView.getTag();
+                    prefs.edit().putLong("id_student_info",razred.getStudent().getId());
+                    prefs.edit().putLong("id_predmet_info",razred.getPredmet().getId());
+                    builderSingle.show();
+
                 }
             });
+            */
 
             return convertView;
-
         }
+        private View.OnClickListener mMyButtonClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = (Integer) v.getTag();
+
+                prefs.edit().putLong("id_student_info",razredi.get(position).getStudent().getId()).commit();
+
+                prefs.edit().putLong("id_predmet_info",razredi.get(position).getPredmet().getId()).commit();
+
+
+                builderSingle.show();
+
+            }
+        };
     }
     private class GetAll extends AsyncTask<Void,Void,Void> {
         ProgressDialog pDialog=new ProgressDialog(getActivity());
@@ -178,7 +313,7 @@ public class PregledStudenata extends android.app.Fragment {
         @Override
         protected Void doInBackground(Void... params) {
             spinnerAdapter=new SpinnerAdapter(getActivity(),R.layout.predmeti_customlist,Predmet.find(Predmet.class,"profesor = ?",String.valueOf(prefs.getLong("profid", 1))));
-            studentAdapter=new StudentAdapter(getActivity(),R.layout.studenti_customlist_all,Razred.listAll(Razred.class));
+            //studentAdapter=new StudentAdapter(getActivity(),R.layout.studenti_customlist_all,Razred.listAll(Razred.class));
             return null;
         }
 
@@ -188,7 +323,7 @@ public class PregledStudenata extends android.app.Fragment {
                 pDialog.dismiss();
             }
             predmet_odb.setAdapter(spinnerAdapter);
-            studenti_get.setAdapter(studentAdapter);
+            //studenti_get.setAdapter(studentAdapter);
 
         }
     }

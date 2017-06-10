@@ -16,6 +16,13 @@
             app:layout_marginLeftPercent="5%"
             app:layout_heightPercent="10%"
             app:cardElevation="2dp">
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:padding="20dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/ic_search_black_24dp" />
 
             <EditText
                 android:id="@+id/ucenik_input"
@@ -23,8 +30,9 @@
                 android:layout_height="fill_parent"
                 android:background="@color/transparent"
                 android:textSize="20dp"
-                android:hint="Unesite učenika"
+                android:hint="Unesite prezime učenika"
                 android:inputType="textNoSuggestions"
+                android:layout_marginLeft="80dp"
                />
 
         </android.support.v7.widget.CardView>

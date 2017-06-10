@@ -1,6 +1,8 @@
 package com.examples.your.ednevnik.Profesor;
 
+import android.app.AlertDialog;
 import android.app.FragmentManager;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -46,6 +48,25 @@ public class Navi_main extends AppCompatActivity implements NavigationView.OnNav
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder=new AlertDialog.Builder(this);
+        builder.setMessage("Odaberite opciju");
+        builder.setMessage("Jeste li sigurni da želite izaći?");
+        builder.setNegativeButton("NE", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.setPositiveButton("DA", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+        builder.show();
+    }
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -53,7 +74,6 @@ public class Navi_main extends AppCompatActivity implements NavigationView.OnNav
         int id = item.getItemId();
 
         if (id == R.id.add_subject) {
-            //startActivity(new Intent(Navi_main.this,Dodaj_predmet.class));
             fm.beginTransaction().replace(R.id.content_frame,new PregledPredmeta()).commit();
         }else if (id == R.id.add_student) {
             fm.beginTransaction().replace(R.id.content_frame,new DodajStudente()).commit();

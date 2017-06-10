@@ -59,7 +59,8 @@ public class ProfesorLogin extends AppCompatActivity {
 
                     }
                     else{
-                        prefs.edit().putLong("profid",Professor.find(Professor.class, "username = ? and password = ?", username_,password_).get(0).getId());
+                        //prefs.edit().putLong("profid",Professor.find(Professor.class, "username = ? and password = ?", username_,password_).get(0).getId()).commit();
+                        prefs.edit().putLong("profid",Professor.find(Professor.class, "username = ?", username_).get(0).getId()).commit();
                         Toast.makeText(getApplicationContext(), R.string.message_info_correct_data,Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(ProfesorLogin.this, Navi_main.class));
                         finish();

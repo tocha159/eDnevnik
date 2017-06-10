@@ -38,7 +38,6 @@ public class PregledPredmeta extends android.app.Fragment {
     SharedPreferences prefs;
 
 
-
     public PregledPredmeta() {
         // Required empty public constructor
     }

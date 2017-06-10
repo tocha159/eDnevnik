@@ -27,6 +27,8 @@ public class Dodaj_predmet extends AppCompatActivity implements SpectrumPalette.
     TextView odustani_;
     SharedPreferences prefs;
 
+
+
     public void init(){
         spectrumPalette = (SpectrumPalette) findViewById(R.id.palette);
         predmet_odabrani= (Spinner) findViewById(R.id.predmet_odabrani);

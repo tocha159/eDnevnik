@@ -32,6 +32,7 @@ import com.examples.your.ednevnik.Model.Predmet;
 import com.examples.your.ednevnik.Model.Razred;
 import com.examples.your.ednevnik.Model.Student;
 import com.examples.your.ednevnik.R;
+import com.pkmmte.view.CircularImageView;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -61,12 +62,13 @@ public class DodajStudente extends android.app.Fragment {
 
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case(R.id.add_item):
 
-                if(!odabrani.isEmpty()){
+                if(!odabrani.isEmpty()&&(!spiner_adapter.isEmpty())){
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                     builder.setTitle("Potvrdite");
@@ -75,7 +77,7 @@ public class DodajStudente extends android.app.Fragment {
                     builder.setPositiveButton("DA", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            new SpasiUcenike().execute();
+                                new SpasiUcenike().execute();
                         }
                     });
 
@@ -91,7 +93,7 @@ public class DodajStudente extends android.app.Fragment {
 
                 }
                 else{
-                    Toast.makeText(getActivity(),"Niste odabrarli ni jednog učenika",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(),"Niste odabrarli ni jednog učenika ili niste dodali ni jedan predmet",Toast.LENGTH_LONG).show();
                 }
                 break;
         }
@@ -170,7 +172,7 @@ public class DodajStudente extends android.app.Fragment {
                 convertView = LayoutInflater.from(getContext()).inflate(resource, null);
             }
             Student student=studenti.get(position);
-            ImageView student_avatar= (ImageView) convertView.findViewById(R.id.student_avatar);
+            CircularImageView student_avatar= (CircularImageView) convertView.findViewById(R.id.student_avatar);
             TextView student_info= (TextView) convertView.findViewById(R.id.student_info);
             TextView student_username= (TextView) convertView.findViewById(R.id.student_username);
 

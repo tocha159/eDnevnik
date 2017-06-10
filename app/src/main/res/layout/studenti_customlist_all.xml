@@ -5,15 +5,18 @@
     android:descendantFocusability="blocksDescendants"
     android:layout_height="match_parent">
 
-    <ImageView
+    <com.pkmmte.view.CircularImageView
+        android:id="@+id/student_avatar"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        android:scaleType="centerCrop"
-        android:id="@+id/student_avatar"
-        android:src="@drawable/logo"
         android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginBottom="10dp" />
+        android:src="@drawable/logo"
+        app:border="true"
+        app:border_color="#EEEEEE"
+        app:border_width="0dp"
+        app:shadow="true" />
 
     <TextView
         android:textColor="@color/Black"

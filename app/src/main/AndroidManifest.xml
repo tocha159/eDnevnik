@@ -4,8 +4,8 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name="com.orm.SugarApp"
@@ -19,7 +19,7 @@
             android:value="ednevnik.db" />
         <meta-data
             android:name="VERSION"
-            android:value="3" />
+            android:value="6" />
         <meta-data
             android:name="QUERY_LOG"
             android:value="true" />
@@ -39,20 +39,29 @@
             android:theme="@style/AppTheme.Dark" />
         <activity
             android:name=".Profesor.ProfesorRegister"
-            android:theme="@style/AppTheme.Dark"></activity>
+            android:theme="@style/AppTheme.Dark" />
         <activity
             android:name=".Ucenik.StudentLogin"
-            android:theme="@style/AppTheme.Dark"></activity>
+            android:theme="@style/AppTheme.Dark" />
         <activity
             android:name=".Ucenik.StudentRegister"
-            android:theme="@style/AppTheme.Dark"></activity>
+            android:theme="@style/AppTheme.Dark" />
         <activity
             android:name=".Profesor.Navi_main"
-            android:windowSoftInputMode="adjustPan"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".Profesor.Dodaj_predmet"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".Profesor.DodajOcijenu"
+            android:theme="@style/ThemeApp"
+            android:windowSoftInputMode="adjustPan"></activity>
+        <activity
+            android:name=".Profesor.DodajIzostanak"
+            android:theme="@style/ThemeApp"
+            android:windowSoftInputMode="adjustPan">
 
-        <activity android:name=".Profesor.Dodaj_predmet"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
     </application>
 
