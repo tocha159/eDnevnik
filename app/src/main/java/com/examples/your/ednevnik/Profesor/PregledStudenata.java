@@ -16,6 +16,9 @@ import android.support.v7.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -28,9 +31,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.examples.your.ednevnik.Model.Ocjena;
 import com.examples.your.ednevnik.Model.Predmet;
 import com.examples.your.ednevnik.Model.Razred;
 import com.examples.your.ednevnik.Model.Student;
+import com.examples.your.ednevnik.Model.ZakljucnaOcjena;
 import com.examples.your.ednevnik.R;
 import com.pkmmte.view.CircularImageView;
 import com.squareup.picasso.Picasso;
@@ -57,6 +62,61 @@ public class PregledStudenata extends android.app.Fragment {
 
     public PregledStudenata() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.zakljuci_ocjenu,menu);
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.ocjena_zakljuci:
+                AlertDialog.Builder builder=new AlertDialog.Builder(getActivity());
+                builder.setTitle("Zaključivanje ocjene");
+                builder.setMessage("Jeste li sigurni da želite automatski zaključiti ocjene?");
+                builder.setNegativeButton("NE", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.setPositiveButton("DA", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        new ZakljuciOcjene().execute();
+                    }
+                });
+                builder.show();
+                break;
+            case R.id.ocjena_ponisti:
+                AlertDialog.Builder builder2=new AlertDialog.Builder(getActivity());
+                builder2.setTitle("Poništite zaključne ocjene");
+                builder2.setMessage("Jeste li sigurni da želite poništiti zaključne ocjene?");
+                builder2.setNegativeButton("NE", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder2.setPositiveButton("DA", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        for(int i=0;i<studentAdapter.getCount();i++) {
+                            Razred r = studentAdapter.getItem(i);
+                            ZakljucnaOcjena.deleteAll(ZakljucnaOcjena.class, "predmet = ? and student = ?", String.valueOf(r.getPredmet().getId()), String.valueOf(r.getStudent().getId()));
+                        }
+                        Toast.makeText(getActivity(),"Uspiješno ste obrisali zaključne ocjene!!",Toast.LENGTH_LONG).show();
+                        studenti_get.setAdapter(studentAdapter);
+                    }
+                });
+                builder2.show();
+
+                break;
+        }
+        return true;
     }
 
     public void init(View v){
@@ -169,6 +229,7 @@ public class PregledStudenata extends android.app.Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v=inflater.inflate(R.layout.fragment_pregled_studenata, container, false);
+        setHasOptionsMenu(true);
         getActivity().setTitle("Pregled učenika");
         init(v);
         properties();
@@ -248,12 +309,13 @@ public class PregledStudenata extends android.app.Fragment {
             if(convertView == null){
                 convertView = LayoutInflater.from(getContext()).inflate(resource, null);
             }
-            final Razred razred=razredi.get(position);
+            Razred razred=razredi.get(position);
 
             CircularImageView student_avatar= (CircularImageView) convertView.findViewById(R.id.student_avatar);
             TextView student_info= (TextView) convertView.findViewById(R.id.student_info);
             TextView student_username= (TextView) convertView.findViewById(R.id.student_username);
             ImageButton student_settigs= (ImageButton) convertView.findViewById(R.id.odabrani_settings);
+            TextView student_zaključna= (TextView) convertView.findViewById(R.id.student_zaključna);
 
             final Student student=Student.findById(Student.class,razred.getStudent().getId());
 
@@ -267,13 +329,17 @@ public class PregledStudenata extends android.app.Fragment {
 
             }
 
+            List<ZakljucnaOcjena> pok=ZakljucnaOcjena.find(ZakljucnaOcjena.class,"predmet = ? and student = ?", String.valueOf(razred.getPredmet().getId()), String.valueOf(razred.getStudent().getId()));
+            if(pok.size()>0)
+                student_zaključna.setText("Zaključna ocjena: "+ pok.get(0).getZakljucna());
+            else
+                student_zaključna.setText("");
 
             student_info.setText(student.getName()+" "+student.getSurname());
             student_username.setText(student.getUsername());
 
             student_settigs.setTag(position);
             student_settigs.setOnClickListener(mMyButtonClickListener);
-
 
             return convertView;
         }
@@ -291,6 +357,26 @@ public class PregledStudenata extends android.app.Fragment {
 
             }
         };
+    }
+    public float dajProsjek(List<Ocjena>ocjena){
+        int suma=0;
+        for(Ocjena o:ocjena){
+            suma+=o.getOcjena();
+        }
+        return (float) suma/ocjena.size();
+    }
+    public int dajOcjenu(float prosjek){
+        if(Float.compare(prosjek,1.5f)< 0)
+            return 1;
+        else if((Float.compare(prosjek,1.5f)>=0)&&((Float.compare(prosjek,2.5f)<0)))
+            return 2;
+        else if((Float.compare(prosjek,2.5f)>=0)&&((Float.compare(prosjek,3.5f)<0)))
+            return 3;
+        else if((Float.compare(prosjek,3.5f)>=0)&&((Float.compare(prosjek,4.5f)<0)))
+            return 4;
+        else
+            return 5;
+
     }
     private class GetAll extends AsyncTask<Void,Void,Void> {
         ProgressDialog pDialog=new ProgressDialog(getActivity());
@@ -317,6 +403,48 @@ public class PregledStudenata extends android.app.Fragment {
             }
             predmet_odb.setAdapter(spinnerAdapter);
             //studenti_get.setAdapter(studentAdapter);
+
+        }
+    }
+    private class ZakljuciOcjene extends AsyncTask<Void,Void,Void> {
+        ProgressDialog pDialog=new ProgressDialog(getActivity());
+        @Override
+        protected void onPreExecute() {
+
+            pDialog.setMessage("Molimo pričekajte zaključujem ocjene...");
+            pDialog.setCancelable(false);
+            pDialog.show();
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            for(int i=0;i<studentAdapter.getCount();i++){
+                Razred r=studentAdapter.getItem(i);
+                //Student s=Student.findById(Student.class, r.getStudent().getId());
+                //Predmet p=Predmet.findById(Predmet.class, r.getPredmet().getId());
+                ZakljucnaOcjena.deleteAll(ZakljucnaOcjena.class,"predmet = ? and student = ?", String.valueOf(r.getPredmet().getId()), String.valueOf(r.getStudent().getId()));
+                List<Ocjena>ocjena=Ocjena.find(Ocjena.class,"ucenik = ? and predmet = ?",String.valueOf(r.getStudent().getId()),String.valueOf(r.getPredmet().getId()));
+                if(!ocjena.isEmpty()){
+                    ZakljucnaOcjena zakljucna=new ZakljucnaOcjena(dajOcjenu(dajProsjek(ocjena)),r.getPredmet(),r.getStudent());
+                    zakljucna.save();
+                }
+                else {
+                    ZakljucnaOcjena zakljucna=new ZakljucnaOcjena(1,r.getPredmet(),r.getStudent());
+                    zakljucna.save();
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            studenti_get.setAdapter(studentAdapter);
+            if (pDialog.isShowing()){
+                pDialog.dismiss();
+            }
+            Toast.makeText(getActivity(),"Uspiješno ste zaključili ocjene!!",Toast.LENGTH_LONG).show();
+
 
         }
     }

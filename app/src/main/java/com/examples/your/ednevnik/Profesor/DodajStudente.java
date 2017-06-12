@@ -361,7 +361,7 @@ public class DodajStudente extends android.app.Fragment {
             if(duplikat)
                 Toast.makeText(getActivity(),"Uspiješno ste dodali učenike,duplikati su zanemareni",Toast.LENGTH_LONG).show();
             else
-                Toast.makeText(getActivity(),"Upsiješno ste dodali učenike",Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(),"Uspiješno ste dodali učenike",Toast.LENGTH_LONG).show();
         }
     }
 
