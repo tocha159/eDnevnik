@@ -26,15 +26,17 @@ import com.examples.your.ednevnik.Model.Student;
 import com.examples.your.ednevnik.R;
 import com.orm.SugarContext;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+/**
+ * Created by PINJUH on 12.6.2017..
+ */
 
-public class DodajOcijenu extends AppCompatActivity {
+public class UrediObrisiOcjenu extends AppCompatActivity {
     TextView ocjena_info_ime;
     TextView ocjena_info_prezime;
     TextView ocjena_info_korisnickoime;
@@ -50,27 +52,44 @@ public class DodajOcijenu extends AppCompatActivity {
 
     private android.app.DatePickerDialog DatePickerDialog;
     private SimpleDateFormat dateFormatter;
-    Intent intent;
+
+
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_dodaj_ocijenu);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        setTitle("Ažuriranje ocjene");
+        init();
+        properties();
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.ocjena_menu, menu);
+        inflater.inflate(R.menu.ocjena_uredi, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        final Ocjena ocjena=Ocjena.findById(Ocjena.class,getIntent().getLongExtra("id_ocjena",1));
         switch (item.getItemId()){
             case android.R.id.home:
+                startActivity(new Intent(UrediObrisiOcjenu.this,ViewOcjeneStudent.class));
                 finish();
                 break;
-            case R.id.ocjena_spremi:
+            case R.id.ocjena_obrisi:
                 AlertDialog.Builder builder=new AlertDialog.Builder(this);
-                builder.setTitle("Odaberite opciju");
-                builder.setMessage("Jeste li sigurni da želite dodati ocjenu?");
-
-                builder.setNegativeButton("Ne", new DialogInterface.OnClickListener() {
+                builder.setTitle("Odaberite akciju");
+                builder.setMessage("Jesite li sigurni da želite obrisati ovu ocjenu?");
+                builder.setNegativeButton("NE", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
@@ -79,48 +98,48 @@ public class DodajOcijenu extends AppCompatActivity {
                 builder.setPositiveButton("DA", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if((ocjena>0)&&(ocjena_datum.getText().length()>0)){
-                            DateFormat format = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
-                            try {
-                                Date d = format.parse(ocjena_datum.getText().toString());
-                                Ocjena o=new Ocjena(d.getTime(),(String)ocjena_tip.getSelectedItem(),ocjena,ocjena_info_napomena.getText().toString(),s,p);
-                                o.save();
-                                Toast.makeText(getApplicationContext(),"Uspiješno ste dodali ocjenu za ovog učenika",Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(DodajOcijenu.this,ViewOcjeneStudent.class));
-                                finish();
-
-                            } catch (ParseException e) {
-                                Toast.makeText(getApplicationContext(),"Došlo je do neočekivane greške",Toast.LENGTH_SHORT).show();
-                                e.printStackTrace();
-                            }
-                            ocjena_datum.setText("");
-                            ocjena_grupa.clearCheck();
-                            ocjena=0;
-
-                        }
-                        else{
-                            Toast.makeText(getApplicationContext(),"Niste odabrali datum ili ocjenu",Toast.LENGTH_SHORT).show();
-                        }
-                        dialog.dismiss();
+                        ocjena.delete();
+                        Toast.makeText(getApplicationContext(),"Uspiješno se obrisali ocjenu",Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(UrediObrisiOcjenu.this, ViewOcjeneStudent.class));
+                        finish();
                     }
                 });
                 builder.show();
                 break;
+            case R.id.ocjena_update:
+                AlertDialog.Builder builder2=new AlertDialog.Builder(this);
+                builder2.setTitle("Odaberite akciju");
+                builder2.setMessage("Jesite li sigurni da želite ažurirati ovu ocjenu?");
+                builder2.setNegativeButton("NE", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder2.setPositiveButton("DA", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        try {
+                            Date d = dateFormatter.parse(ocjena_datum.getText().toString());
+                            ocjena.setDatum(d.getTime());
+                            ocjena.setOcjena(UrediObrisiOcjenu.this.ocjena);
+                            ocjena.setNapomena(ocjena_info_napomena.getText().toString());
+                            ocjena.setTip((String)ocjena_tip.getSelectedItem());
+                            ocjena.save();
+                            Toast.makeText(getApplicationContext(),"Uspiješno se ažurirali ocjenu",Toast.LENGTH_SHORT).show();
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        startActivity(new Intent(UrediObrisiOcjenu.this, ViewOcjeneStudent.class));
+                        finish();
+                    }
+                });
+                builder2.show();
+                break;
         }
         return true;
     }
-
-    @Override
-    public void onBackPressed() {
-
-    }
-
     public void init(){
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-
         SugarContext.init(this);
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
         dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
@@ -134,21 +153,51 @@ public class DodajOcijenu extends AppCompatActivity {
         ocjena_info_napomena= (EditText) findViewById(R.id.ocjena_info_napomena);
         ocjena_grupa= (RadioGroup) findViewById(R.id.ocjena_grupa);
 
-        intent = getIntent();
+
         ocjena_datum.setInputType(InputType.TYPE_NULL);
         ocjena_datum.requestFocus();
 
+
         s=Student.findById(Student.class,prefs.getLong("id_student_info",1));
         p=Predmet.findById(Predmet.class, prefs.getLong("id_predmet_info", 1));
-
-
-
 
 
         ocjena_info_ime.setText(s.getName());
         ocjena_info_prezime.setText(s.getSurname());
         ocjena_info_korisnickoime.setText(s.getUsername());
         ocjena_info_predmet.setText(p.getNaziv_predmeta());
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(getIntent().getLongExtra("datum_ocjena",10245));
+
+        ocjena_datum.setText(dateFormatter.format(calendar.getTime()));
+
+        for(int i=0;i<ocjena_tip.getCount();i++){
+            if(ocjena_tip.getItemAtPosition(i).equals(getIntent().getStringExtra("tip_ocjena"))){
+                ocjena_tip.setSelection(i);
+            }
+        }
+        ocjena=getIntent().getIntExtra("_ocjena",1);
+        switch(ocjena){
+            case 1:
+                ocjena_grupa.check(R.id.ocjena_1);
+                break;
+            case 2:
+                ocjena_grupa.check(R.id.ocjena_2);
+                break;
+            case 3:
+                ocjena_grupa.check(R.id.ocjena_3);
+                break;
+            case 4:
+                ocjena_grupa.check(R.id.ocjena_4);
+                break;
+            case 5:
+                ocjena_grupa.check(R.id.ocjena_5);
+                break;
+
+
+        }
+        ocjena_info_napomena.setText(getIntent().getStringExtra("napomena_ocjena"));
 
     }
     public void properties(){
@@ -194,15 +243,5 @@ public class DodajOcijenu extends AppCompatActivity {
                 }
             }
         });
-    }
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dodaj_ocijenu);
-        init();
-        properties();
-        setTitle("Dodaj ocjenu");
-
-
     }
 }

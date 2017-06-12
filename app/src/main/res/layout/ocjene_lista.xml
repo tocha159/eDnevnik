@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:layout_alignParentLeft="true"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/tip_ocjene"
+        android:text="Usmeni ispit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"/>
+
+    />
+    <TextView
+        android:text="Datum: 16.4.2017"
+        android:layout_below="@id/tip_ocjene"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/datum_ocjene"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        />
+    <TextView
+        android:text="Nije htio odgovarat "
+        android:layout_below="@id/datum_ocjene"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:id="@+id/napomena_ocjene"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        />
+
+    <TextView
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_marginTop="20dp"
+        android:id="@+id/ocjena_predmet"
+        android:text="1"
+        android:layout_marginRight="20dp"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+
+
+</RelativeLayout>

@@ -69,26 +69,26 @@ public class PregledStudenata extends android.app.Fragment {
         builderSingle.setTitle("Odaberite opciju");
 
         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1);
-        arrayAdapter.add("Vidi profil");
+        arrayAdapter.add("Vidi ocjene");
+        arrayAdapter.add("Vidi izostanke");
         arrayAdapter.add("Ocjeni");
         arrayAdapter.add("Zapiši izostanak");
-        arrayAdapter.add("Zaključi ocjenu");
 
         builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
-                    case 0: // vidi profil
+                    case 0: // vidi ocjene
+                        startActivity(new Intent(getActivity(),ViewOcjeneStudent.class));
                         break;
-                    case 1: // ocjeni
-                        Intent i=new Intent(getActivity(),DodajOcijenu.class);
-                        startActivity(i);
+                    case 1: // vidi izostanke
+                        startActivity(new Intent(getActivity(),ViewIzostanciStudent.class));
                         break;
-                    case 2: // zapisi izostanak
-                        Intent j=new Intent(getActivity(),DodajIzostanak.class);
-                        startActivity(j);
+                    case 2: // ocjeni
+                        startActivity(new Intent(getActivity(),DodajOcijenu.class));
                         break;
-                    case 3: // zakljuci ocjenu
+                    case 3: // zapisi izostanak
+                        startActivity(new Intent(getActivity(),DodajIzostanak.class));
                         break;
 
                 }
@@ -259,7 +259,13 @@ public class PregledStudenata extends android.app.Fragment {
 
 
             File file = new File(Environment.getExternalStorageDirectory().getPath() +"/Dnevnik/"+student.getUsername()+".jpg");
-            Picasso.with(getActivity()).load(file).into(student_avatar);
+            try{
+                Picasso.with(getActivity()).load(file).into(student_avatar);
+            }
+            catch (Exception e){
+                Picasso.with(getActivity()).load(student.getPicture()).into(student_avatar);
+
+            }
 
 
             student_info.setText(student.getName()+" "+student.getSurname());
@@ -268,19 +274,6 @@ public class PregledStudenata extends android.app.Fragment {
             student_settigs.setTag(position);
             student_settigs.setOnClickListener(mMyButtonClickListener);
 
-
-            /*
-            student_settigs.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    convertView.getTag();
-                    prefs.edit().putLong("id_student_info",razred.getStudent().getId());
-                    prefs.edit().putLong("id_predmet_info",razred.getPredmet().getId());
-                    builderSingle.show();
-
-                }
-            });
-            */
 
             return convertView;
         }

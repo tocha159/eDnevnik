@@ -6,7 +6,7 @@ import com.orm.SugarRecord;
  * Created by PINJUH on 9.6.2017..
  */
 
-public class Ocjena extends SugarRecord {
+public class Ocjena extends SugarRecord{
     long datum;
     String tip;
     int ocjena;

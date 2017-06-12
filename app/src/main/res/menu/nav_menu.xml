@@ -19,34 +19,9 @@
                 android:id="@+id/view_student"
                 android:title="Pregled ucenika"
                 android:icon="@android:drawable/ic_input_get" />
-        </menu>
-    </item>
-
-    <item android:title="Ocjene">
-
-        <menu>
-            <item android:id="@+id/id_ocjeni"
-                android:title="Ocjeni"/>
             <item android:id="@+id/id_zakljuci"
                 android:title="Zaključi ocjenu"/>
-
         </menu>
-
-
     </item>
-    <item android:title="Izostanci">
-        <menu>
-        <item android:id="@+id/id_izostanci"
-            android:icon="@android:drawable/ic_input_add"
-            android:title="Izostanci"/>
-
-        </menu>
-        </item>
-
-
-
-
-
-
 
 </menu>

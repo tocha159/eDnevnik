@@ -13,7 +13,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/ThemeApp">
         <meta-data
             android:name="DATABASE"
             android:value="ednevnik.db" />
@@ -27,7 +27,9 @@
             android:name="DOMAIN_PACKAGE_NAME"
             android:value="com.examples.your.ednevnik" />
 
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/AppTheme.Dark">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -48,18 +50,29 @@
             android:theme="@style/AppTheme.Dark" />
         <activity
             android:name=".Profesor.Navi_main"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:theme="@style/ThemeApp.Light"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".Profesor.Dodaj_predmet"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/ThemeApp.Light" />
         <activity
             android:name=".Profesor.DodajOcijenu"
             android:theme="@style/ThemeApp"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".Profesor.UrediObrisiOcjenu"
+            android:theme="@style/ThemeApp"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".Profesor.DodajIzostanak"
             android:theme="@style/ThemeApp"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".Profesor.ViewOcjeneStudent"
+            android:theme="@style/ThemeApp.Light"
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".Profesor.ViewIzostanciStudent"
+            android:theme="@style/ThemeApp.Light"
             android:windowSoftInputMode="adjustPan">
 
         </activity>

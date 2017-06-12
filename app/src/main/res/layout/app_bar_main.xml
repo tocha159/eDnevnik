@@ -10,16 +10,17 @@
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme">
+        android:theme="@style/ThemeApp"
+        >
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:textColor="#FFFFFF"
-            android:titleTextColor="#0066b3"
+            style="@style/HeaderBar"
+            app:theme="@style/ActionBarThemeOverlay"
             app:popupTheme="@style/PopupOverlay"
-            android:background="#0066b3" />
+            />
 
     </android.support.design.widget.AppBarLayout>
 

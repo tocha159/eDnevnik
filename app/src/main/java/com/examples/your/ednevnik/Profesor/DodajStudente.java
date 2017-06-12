@@ -23,7 +23,6 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -104,30 +103,56 @@ public class DodajStudente extends android.app.Fragment {
         prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         predmet_odabrani= (Spinner) v.findViewById(R.id.predmet_odabrani);
         studenti_reg= (ListView) v.findViewById(R.id.studenti_reg);
+        studenti_reg.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         odabrani=new ArrayList<>();
 
     }
     public void properties(){
         new GetAll().execute();
 
+        /*
         studenti_reg.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
                 //Toast.makeText(getActivity(),"radii",Toast.LENGTH_SHORT).show();
-
-                RelativeLayout lin= (RelativeLayout) view;
+                RelativeLayout lin= (RelativeLayout) studenti_reg.getChildAt(position);
                 CheckBox cb= (CheckBox) lin.findViewById(R.id.odabrani_student);
-                if(!cb.isChecked()) {
+                if(!cb.isChecked()){
                     cb.setChecked(true);
                     odabrani.add(adapter.getItem(position));
                 }
-                else{
+                else {
                     cb.setChecked(false);
                     odabrani.remove(adapter.getItem(position));
-
                 }
+
             }
         });
+        */
+        /*
+        studenti_reg.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                CheckBox cb= (CheckBox) view.findViewById(R.id.odabrani_student);
+                if(!cb.isChecked()){
+                    cb.setChecked(true);
+                    odabrani.add(adapter.getItem(position));
+                }
+                else {
+                    cb.setChecked(false);
+                    odabrani.remove(adapter.getItem(position));
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        */
+
+
 
         predmet_odabrani.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -159,15 +184,21 @@ public class DodajStudente extends android.app.Fragment {
     private class Adapter extends ArrayAdapter<Student>{
         private int resource;
         private List<Student> studenti;
+        private List<Boolean>oznacen=new ArrayList<>();
+
 
         public Adapter(Context context, int resource, List<Student> objects) {
             super(context, resource, objects);
             this.resource=resource;
             studenti=objects;
+            for(int i=0;i<studenti.size();i++){
+                oznacen.add(false);
+            }
         }
 
+
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             if(convertView == null){
                 convertView = LayoutInflater.from(getContext()).inflate(resource, null);
             }
@@ -175,19 +206,61 @@ public class DodajStudente extends android.app.Fragment {
             CircularImageView student_avatar= (CircularImageView) convertView.findViewById(R.id.student_avatar);
             TextView student_info= (TextView) convertView.findViewById(R.id.student_info);
             TextView student_username= (TextView) convertView.findViewById(R.id.student_username);
+            final CheckBox cb= (CheckBox) convertView.findViewById(R.id.odabrani_student);
 
+            if(oznacen.get(position)){
+                cb.setChecked(true);
+            }
+            else{
+                cb.setChecked(false);
+            }
+            cb.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(cb.isChecked()){
+                        oznacen.set(position,true);
+                        odabrani.add(adapter.getItem(position));
+                    }
+                    else {
+                        oznacen.set(position,false);
+                        odabrani.remove(adapter.getItem(position));
+                    }
+                }
+            });
             //File f = new File("/Dnevnik/"+ student.getUsername()+".jpg");
             File file = new File(Environment.getExternalStorageDirectory().getPath() +"/Dnevnik/"+student.getUsername()+".jpg");
-            Picasso.with(getActivity()).load(file).into(student_avatar);
+            try{
+                Picasso.with(getActivity()).load(file).into(student_avatar);
+            }
+            catch (Exception e){
+                Picasso.with(getActivity()).load(student.getPicture()).into(student_avatar);
 
-
+            }
             student_info.setText(student.getName()+" "+student.getSurname());
             student_username.setText(student.getUsername());
 
+            /*
+            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    cb.setChecked(isChecked);
+                    if(isChecked){
+                        cb.setChecked(true);
+                        odabrani.add(adapter.getItem(position));
+                    }
+                    else {
+                        cb.setChecked(false);
+                        odabrani.remove(adapter.getItem(position));
+                    }
+                }
+            });
+            */
 
             return convertView;
 
         }
+
+
     }
 
     private class SpinnerAdapter extends ArrayAdapter<Predmet>{

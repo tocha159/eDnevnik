@@ -39,7 +39,19 @@
         android:layout_below="@+id/student_info"
         android:layout_alignLeft="@+id/student_info"
         android:layout_alignStart="@+id/student_info"
+        />
+    <TextView
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Zaključna ocjena: 4"
+        android:id="@+id/student_zaključna"
+        android:layout_below="@+id/student_username"
+        android:layout_alignLeft="@+id/student_info"
+        android:layout_alignStart="@+id/student_info"
         android:layout_marginTop="5dp" />
+
 
     <ImageButton
         android:id="@+id/odabrani_settings"

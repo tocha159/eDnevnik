@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:textSize="20sp"
+        android:layout_marginTop="5dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_marginLeft="10dp"
+        android:text="1."
+        android:textAlignment="center"
+        android:layout_marginRight="15dp"
+        android:gravity="center_vertical"
+        android:id="@+id/brojac_ocjena"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+       />
+
+
+    <TextView
+        android:layout_marginTop="5dp"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:layout_toRightOf="@+id/brojac_ocjena"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/datum_izostanka"
+        android:text="16.4.2017"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"/>
+
+    />
+    <TextView
+        android:layout_marginBottom="5dp"
+        android:text="Puštao pjesme na mobitel"
+        android:layout_below="@id/datum_izostanka"
+        android:layout_toRightOf="@+id/brojac_ocjena"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/napomena_izostanka"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        />
+
+
+
+
+
+</RelativeLayout>

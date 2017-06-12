@@ -42,7 +42,6 @@
         android:layout_marginTop="5dp" />
 
     <CheckBox
-        android:clickable="false"
         android:focusable="false"
         android:id="@+id/odabrani_student"
         android:layout_marginRight="10dp"

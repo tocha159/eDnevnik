@@ -6,6 +6,6 @@
         android:id="@+id/ocjena_spremi"
         android:title="Spremi"
         app:showAsAction="always"
-        android:icon="@drawable/ic_done_white_24dp">
+        android:icon="@android:drawable/ic_menu_save">
     </item>
 </menu>

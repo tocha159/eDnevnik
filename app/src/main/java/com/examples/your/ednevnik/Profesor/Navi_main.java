@@ -66,6 +66,7 @@ public class Navi_main extends AppCompatActivity implements NavigationView.OnNav
             }
         });
         builder.show();
+
     }
 
     @Override
@@ -81,11 +82,7 @@ public class Navi_main extends AppCompatActivity implements NavigationView.OnNav
         }else if (id == R.id.view_student) {
             fm.beginTransaction().replace(R.id.content_frame,new PregledStudenata()).commit();
 
-        }else if (id == R.id.id_ocjeni) {
-
         }else if (id == R.id.id_zakljuci) {
-
-        }else if (id == R.id.id_izostanci) {
 
         }
         mDrawerLayout.closeDrawer(GravityCompat.START);

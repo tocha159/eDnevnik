@@ -74,12 +74,15 @@ public class DodajIzostanak extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         if(!izostanak_datum.getText().equals("")){
                             DateFormat format = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+
                             try {
                                 Date d = format.parse(izostanak_datum.getText().toString());
-                                if(Izostanak.find(Izostanak.class,"datum = ? and ucenik = ? and predmet = ?",String.valueOf(d),String.valueOf(s.getId()),String.valueOf(p.getId())).isEmpty()){
+                                if(Izostanak.find(Izostanak.class,"datum = ? and ucenik = ? and predmet = ?",String.valueOf(d.getTime()),String.valueOf(s.getId()),String.valueOf(p.getId())).isEmpty()){
                                     Izostanak i=new Izostanak(d.getTime(),izostanak_napomena.getText().toString(),s,p);
                                     i.save();
                                     Toast.makeText(getApplicationContext(),"Uspiješno ste dodali izostanak za ovog učenika",Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent(DodajIzostanak.this,ViewIzostanciStudent.class));
+                                    finish();
                                 }
                                 else{
                                     Toast.makeText(getApplicationContext(),"Već ste zabilježili izostanak učenika za ovaj datum i predmet",Toast.LENGTH_SHORT).show();
