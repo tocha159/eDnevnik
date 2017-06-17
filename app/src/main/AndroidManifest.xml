@@ -71,11 +71,14 @@
             android:name=".Profesor.ViewOcjeneStudent"
             android:theme="@style/ThemeApp.Light"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".Profesor.ViewIzostanciStudent"
+        <activity
+            android:name=".Profesor.ViewIzostanciStudent"
             android:theme="@style/ThemeApp.Light"
-            android:windowSoftInputMode="adjustPan">
-
-        </activity>
+            android:windowSoftInputMode="adjustPan"></activity>
+        <activity
+            android:name=".Ucenik.StudentNavDraw"
+            android:label="@string/title_activity_student_nav_draw"
+            android:theme="@style/ThemeApp.NoActionBar"></activity>
     </application>
 
 </manifest>

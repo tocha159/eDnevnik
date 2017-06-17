@@ -1,8 +1,11 @@
 package com.examples.your.ednevnik.Profesor;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
@@ -11,20 +14,22 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.examples.your.ednevnik.Model.Ocjena;
 import com.examples.your.ednevnik.Model.Predmet;
 import com.examples.your.ednevnik.Model.Student;
+import com.examples.your.ednevnik.Model.ZakljucnaOcjena;
 import com.examples.your.ednevnik.R;
+import com.examples.your.ednevnik.Ucenik.NonScrollListView;
 import com.orm.SugarContext;
+import com.pkmmte.view.CircularImageView;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -32,30 +37,33 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
+
 /**
  * Created by PINJUH on 11.6.2017..
  */
 
 public class ViewOcjeneStudent extends AppCompatActivity {
-    //TextView ocjena_info_ime;
-    //TextView ocjena_info_prezime;
-   // TextView ocjena_info_korisnickoime;
-    //TextView ocjena_info_predmet;
     Toolbar toolbar;
-    ImageView student_avatar;
+    CircularImageView student_avatar;
     Ocjene_recycler_adapter adapter;
     Student s;
     Predmet p;
     RecyclerView ocjena_student2;
-    ListView ocjena_student;
+    NonScrollListView ocjena_student;
     OcjeneAdapter adapter2;
-    TextView predmet_ime;
+    TextView student_podaci;
+    TextView predmet_podaci;
+    TextView zakljucna_podaci;
+
 
     SharedPreferences prefs;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        return super.onCreateOptionsMenu(menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.student_info, menu);
+        return true;
+
     }
 
     @Override
@@ -63,6 +71,11 @@ public class ViewOcjeneStudent extends AppCompatActivity {
         switch (item.getItemId()){
             case android.R.id.home:
                 finish();
+                break;
+            case R.id.zakljuci_student:
+                Dialog dialog = new Dialog(this);
+                dialog.setContentView(R.layout.zakljuci_ocjena_single);
+                dialog.show();
                 break;
         }
         return true;
@@ -88,13 +101,12 @@ public class ViewOcjeneStudent extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         SugarContext.init(this);
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        predmet_ime= (TextView) findViewById(R.id.predmet_ime);
-       // ocjena_info_ime= (TextView) findViewById(R.id.ocjena_info_ime);
-        //ocjena_info_prezime= (TextView) findViewById(R.id.ocjena_info_prezime);
-       // ocjena_info_korisnickoime= (TextView) findViewById(R.id.ocjena_info_korisnickoime);
-       // ocjena_info_predmet= (TextView) findViewById(R.id.ocjena_info_predmet);
-        student_avatar= (ImageView) findViewById(R.id.student_avatar);
-        ocjena_student= (ListView) findViewById(R.id.ocjene_student);
+        student_podaci= (TextView) findViewById(R.id.student_podaci);
+        predmet_podaci= (TextView) findViewById(R.id.predmet_podaci);
+        zakljucna_podaci= (TextView) findViewById(R.id.zakljucna_podaci);
+
+        student_avatar= (CircularImageView) findViewById(R.id.student_avatar);
+        ocjena_student= (NonScrollListView) findViewById(R.id.ocjene_student);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -112,24 +124,40 @@ public class ViewOcjeneStudent extends AppCompatActivity {
 
         }
 
-        //ocjena_info_ime.setText(s.getName());
-        //ocjena_info_prezime.setText(s.getSurname());
-       // ocjena_info_korisnickoime.setText(s.getUsername());
-       // ocjena_info_predmet.setText(p.getNaziv_predmeta());
+        student_podaci.setText(s.getName()+" "+s.getSurname());
+        predmet_podaci.setText(p.getNaziv_predmeta());
 
-        //adapter=new Ocjene_recycler_adapter(Ocjena.find(Ocjena.class,"ucenik = ? and predmet = ?",String.valueOf(prefs.getLong("id_student_info",1)),String.valueOf(prefs.getLong("id_predmet_info",1))));
-       // adapter=new Ocjene_recycler_adapter(Ocjena.listAll(Ocjena.class));
-        predmet_ime.setText(p.getNaziv_predmeta());
+        List<ZakljucnaOcjena>ocjena=ZakljucnaOcjena.find(ZakljucnaOcjena.class,"student = ? and predmet = ?",String.valueOf(s.getId()),String.valueOf(p.getId()));
+        if (ocjena.isEmpty())
+            zakljucna_podaci.setText("");
+        else
+            zakljucna_podaci.setText("Zaključna ocjena: "+ocjena.get(0).getZakljucna());
+
+
+
+
+
+
+
         adapter2=new OcjeneAdapter(this,R.layout.ocjene_lista,Ocjena.find(Ocjena.class,"ucenik = ? and predmet = ?",String.valueOf(prefs.getLong("id_student_info",1)),String.valueOf(prefs.getLong("id_predmet_info",1))));
 
         ocjena_student.setAdapter(adapter2);
+
+        TextView textView = new TextView(this);
+        textView.setText("Pregled ocjena");
+        textView.setTextSize(20);
+        textView.setTextColor(Color.BLACK);
+        textView.setTypeface(null, Typeface.BOLD);
+        ocjena_student.addHeaderView(textView,null,false);
+
+
 
     }
     public  void properties(){
         ocjena_student.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Ocjena o = adapter2.getItem(position);
+                Ocjena o = adapter2.getItem(position-1);
                 Intent i=new Intent(ViewOcjeneStudent.this,UrediObrisiOcjenu.class);
                 i.putExtra("id_ocjena",o.getId());
                 i.putExtra("datum_ocjena",o.getDatum());
@@ -142,7 +170,6 @@ public class ViewOcjeneStudent extends AppCompatActivity {
         });
 
     }
-
 
 
     public class Ocjene_recycler_adapter extends RecyclerView.Adapter<Ocjene_recycler_adapter.MyViewHolder>{
@@ -216,16 +243,19 @@ public class ViewOcjeneStudent extends AppCompatActivity {
             calendar.setTimeInMillis(ocjena.getDatum());
 
             TextView tip_ocjene, datum_ocjene, napomena_ocjene, ocjena_predmet,predmet_prikaz;
+            CircularImageView predmet_color;
             tip_ocjene = (TextView) convertView.findViewById(R.id.tip_ocjene);
             datum_ocjene = (TextView) convertView.findViewById(R.id.datum_ocjene);
             napomena_ocjene = (TextView) convertView.findViewById(R.id.napomena_ocjene);
             ocjena_predmet = (TextView) convertView.findViewById(R.id.ocjena_predmet);
-
+            predmet_color = (CircularImageView) convertView.findViewById(R.id.predmet_color);
 
             ocjena_predmet.setText(String.valueOf(ocjena.getOcjena()));
-            tip_ocjene.setText(ocjena.getTip());
-            datum_ocjene.setText("Datum: "+new SimpleDateFormat("yyy-MM-dd").format(calendar.getTime()));
+            tip_ocjene.setText(String.valueOf(ocjena.getTip().charAt(0)));
+            datum_ocjene.setText(new SimpleDateFormat("yyy-MM-dd").format(calendar.getTime()));
             napomena_ocjene.setText(ocjena.getNapomena());
+
+            predmet_color.setBackgroundColor(Color.parseColor(p.getBoja()));
 
             return convertView;
         }

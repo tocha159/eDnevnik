@@ -31,6 +31,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.examples.your.ednevnik.Model.Izostanak;
 import com.examples.your.ednevnik.Model.Ocjena;
 import com.examples.your.ednevnik.Model.Predmet;
 import com.examples.your.ednevnik.Model.Razred;
@@ -86,7 +87,12 @@ public class PregledStudenata extends android.app.Fragment {
                 builder.setPositiveButton("DA", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        new ZakljuciOcjene().execute();
+                        if((predmet_odb.getCount()>0)&&(studenti_get.getCount()>0))
+                            new ZakljuciOcjene().execute();
+                        else
+                            Toast.makeText(getActivity(),"Nemate aktivan nijedan predmet,ili nemate ucenika registriranih na vaš predmet!!",Toast.LENGTH_LONG).show();
+
+
                     }
                 });
                 builder.show();
@@ -104,12 +110,16 @@ public class PregledStudenata extends android.app.Fragment {
                 builder2.setPositiveButton("DA", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        for(int i=0;i<studentAdapter.getCount();i++) {
-                            Razred r = studentAdapter.getItem(i);
-                            ZakljucnaOcjena.deleteAll(ZakljucnaOcjena.class, "predmet = ? and student = ?", String.valueOf(r.getPredmet().getId()), String.valueOf(r.getStudent().getId()));
+                        if((predmet_odb.getCount()>0)&&(studenti_get.getCount()>0)){
+                            for(int i=0;i<studentAdapter.getCount();i++) {
+                                Razred r = studentAdapter.getItem(i);
+                                ZakljucnaOcjena.deleteAll(ZakljucnaOcjena.class, "predmet = ? and student = ?", String.valueOf(r.getPredmet().getId()), String.valueOf(r.getStudent().getId()));
+                            }
+                            Toast.makeText(getActivity(),"Uspiješno ste obrisali zaključne ocjene!!",Toast.LENGTH_LONG).show();
+                            studenti_get.setAdapter(studentAdapter);
                         }
-                        Toast.makeText(getActivity(),"Uspiješno ste obrisali zaključne ocjene!!",Toast.LENGTH_LONG).show();
-                        studenti_get.setAdapter(studentAdapter);
+                        else
+                            Toast.makeText(getActivity(),"Nemate aktivan nijedan predmet,ili nemate ucenika registriranih na vaš predmet!!",Toast.LENGTH_LONG).show();
                     }
                 });
                 builder2.show();
@@ -177,7 +187,8 @@ public class PregledStudenata extends android.app.Fragment {
 
            @Override
            public void onTextChanged(CharSequence s, int start, int before, int count) {
-               studentAdapter.filter(s.toString());
+                    studentAdapter.filter(s.toString());
+
 
            }
 
@@ -192,7 +203,7 @@ public class PregledStudenata extends android.app.Fragment {
                 Predmet p= (Predmet) predmet_odb.getSelectedItem();
                 AlertDialog.Builder builder=new AlertDialog.Builder(getActivity());
                 builder.setTitle("Odaberite opciju");
-                builder.setMessage("Jeste li sigurno da želite ukloniti učenika iz predmeta "+p.getNaziv_predmeta()+"?");
+                builder.setMessage("Jeste li sigurni da želite ukloniti učenika iz predmeta "+p.getNaziv_predmeta()+"?");
 
                 builder.setNegativeButton("Ne", new DialogInterface.OnClickListener() {
                     @Override
@@ -207,7 +218,10 @@ public class PregledStudenata extends android.app.Fragment {
                         Razred razred=studentAdapter.getItem(position);
                         try {
                             Razred r = Razred.findById(Razred.class,razred.getId());
+                            Izostanak.deleteAll(Izostanak.class, "ucenik = ? and predmet = ?",String.valueOf(r.getStudent().getId()),String.valueOf(r.getPredmet().getId()));
+                            Ocjena.deleteAll(Ocjena.class, "ucenik = ? and predmet = ?",String.valueOf(r.getStudent().getId()),String.valueOf(r.getPredmet().getId()));
                             r.delete();
+
                             Toast.makeText(getActivity(),"Uspiješno ste obrisali učenika",Toast.LENGTH_SHORT).show();
                         }catch (Exception e){
                             Toast.makeText(getActivity(),"Ne možete obrisati učenika jer postoje zapisi(ocjene, izostanci)",Toast.LENGTH_SHORT).show();

@@ -21,6 +21,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.examples.your.ednevnik.Model.Izostanak;
+import com.examples.your.ednevnik.Model.Ocjena;
 import com.examples.your.ednevnik.Model.Predmet;
 import com.examples.your.ednevnik.Model.Razred;
 import com.examples.your.ednevnik.R;
@@ -53,17 +55,8 @@ public class PregledPredmeta extends android.app.Fragment {
         pregled_predmeta= (ListView) v.findViewById(R.id.pregled_predmeta);
         predmet_add= (FloatingActionButton) v.findViewById(R.id.predmet_add);
         adapter=new Adapter(getActivity(),R.layout.predmeti_customlist,Predmet.find(Predmet.class,"profesor = ?",String.valueOf(prefs.getLong("profid", 1))));
-       /*
-        List<Predmet>bb=new ArrayList<>();
-        new Professor("Marko","Maric","aaa","bbb").save();
-        bb.add(new Predmet("Matematika","#147854",Professor.first(Professor.class)));
-        bb.add(new Predmet("Biologija","#174854",Professor.first(Professor.class)));
-        bb.add(new Predmet("Kemija","#167854",Professor.first(Professor.class)));
-        bb.add(new Predmet("Fizika","#147324",Professor.first(Professor.class)));
-        adapter=new Adapter(getActivity(),R.layout.predmeti_customlist,bb);
-        */
-        pregled_predmeta.setAdapter(adapter);
 
+        pregled_predmeta.setAdapter(adapter);
 
         predmet_add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,18 +72,19 @@ public class PregledPredmeta extends android.app.Fragment {
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
                 AlertDialog.Builder builder=new AlertDialog.Builder(getActivity());
                 builder.setTitle("Obrišite");
-                builder.setMessage("Brisanjem predmeta "+adapter.getItem(position).getNaziv_predmeta()+" obrisat će te sve informacije,uključujući i učenike za taj predmet");
+                builder.setMessage("Brisanjem predmeta "+adapter.getItem(position).getNaziv_predmeta()+" obrisat će te sve informacije,uključujući učenike,ocjene i izostanke za taj predmet");
 
                 builder.setPositiveButton("DA", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         try {
-                            //prvo obrisati razrede zbog stranog kljuca, a tek onda predmete
-                            for (Razred raz : Razred.find(Razred.class, "predmet = ?", String.valueOf(adapter.getItem(position).getId()))) {
-                                raz.delete();
-                            }
+
                             Predmet p = Predmet.findById(Predmet.class, adapter.getItem(position).getId());
+                            Izostanak.deleteAll(Izostanak.class, "predmet = ?",String.valueOf(p.getId()));
+                            Ocjena.deleteAll(Ocjena.class, "predmet = ?",String.valueOf(p.getId()));
+                            Razred.deleteAll(Razred.class, "predmet = ?", String.valueOf(p.getId()));
                             p.delete();
+
                             Toast.makeText(getActivity(),"Uspiješno ste obrisali predmet "+ adapter.getItem(position).getNaziv_predmeta(),Toast.LENGTH_LONG).show();
 
                             adapter.remove(adapter.getItem(position));
@@ -138,7 +132,6 @@ public class PregledPredmeta extends android.app.Fragment {
             predmeti=objects;
         }
 
-
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             if(convertView == null){
@@ -153,8 +146,6 @@ public class PregledPredmeta extends android.app.Fragment {
             naziv_predmeta.setText(predmet.getNaziv_predmeta());
             image_text.setText(String.valueOf(predmet.getNaziv_predmeta().charAt(0)));
             predmet_color.setBackgroundColor(Color.parseColor(predmet.getBoja()));
-
-
 
             return convertView;
         }

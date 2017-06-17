@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
@@ -17,13 +19,13 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.examples.your.ednevnik.Model.Izostanak;
 import com.examples.your.ednevnik.Model.Predmet;
 import com.examples.your.ednevnik.Model.Student;
 import com.examples.your.ednevnik.R;
+import com.examples.your.ednevnik.Ucenik.NonScrollListView;
 import com.orm.SugarContext;
 import com.squareup.picasso.Picasso;
 
@@ -37,9 +39,10 @@ public class ViewIzostanciStudent extends AppCompatActivity {
     ImageView student_avatar;
     Student s;
     Predmet p;
-    ListView izostanci_student;
+    NonScrollListView izostanci_student;
     IzostanciAdapter adapter;
-    TextView predmet_ime;
+    TextView student_podaci;
+    TextView predmet_podaci;
 
     SharedPreferences prefs;
 
@@ -69,9 +72,10 @@ public class ViewIzostanciStudent extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         SugarContext.init(this);
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        predmet_ime= (TextView) findViewById(R.id.predmet_ime);
+        student_podaci= (TextView) findViewById(R.id.student_podaci);
+        predmet_podaci= (TextView) findViewById(R.id.predmet_podaci);
         student_avatar= (ImageView) findViewById(R.id.student_avatar);
-        izostanci_student= (ListView) findViewById(R.id.izostanci_student);
+        izostanci_student= (NonScrollListView) findViewById(R.id.izostanci_student);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -89,11 +93,21 @@ public class ViewIzostanciStudent extends AppCompatActivity {
             Picasso.with(this).load(R.drawable.logo).into(student_avatar);
 
         }
+        student_podaci.setText(s.getName()+" "+s.getSurname());
+        predmet_podaci.setText(p.getNaziv_predmeta());
 
-        predmet_ime.setText(p.getNaziv_predmeta());
         adapter=new IzostanciAdapter(this,R.layout.izostanci_lista, Izostanak.find(Izostanak.class,"ucenik = ? and predmet = ?",String.valueOf(prefs.getLong("id_student_info",1)),String.valueOf(prefs.getLong("id_predmet_info",1))));
-
         izostanci_student.setAdapter(adapter);
+
+        TextView textView = new TextView(this);
+        textView.setText("Pregled izostanaka");
+        textView.setTextSize(20);
+        textView.setTextColor(Color.BLACK);
+        textView.setTypeface(null, Typeface.BOLD);
+
+
+
+        izostanci_student.addHeaderView(textView,null,false);
 
     }
     public  void properties(){

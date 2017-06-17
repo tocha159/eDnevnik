@@ -1,47 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <com.pkmmte.view.CircularImageView
+
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:id="@+id/predmet_color"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/aluminum" />
+    />
+
     <TextView
-        android:textStyle="bold"
-        android:textSize="20sp"
-        android:layout_alignParentLeft="true"
-        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="24sp"
         android:id="@+id/tip_ocjene"
-        android:text="Usmeni ispit"
+        android:textAllCaps="true"
+        android:text="U"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"/>
+        android:textColor="#FFFFFF"
+        android:layout_alignLeft="@+id/predmet_color"
+        android:layout_alignTop="@+id/predmet_color"
+        android:layout_alignRight="@+id/predmet_color"
+        android:layout_alignBottom="@+id/predmet_color"
+        android:layout_margin="1dp"
+        android:gravity="center"
+       />
 
     />
     <TextView
+        android:textColor="@color/black"
+        android:layout_alignTop="@+id/predmet_color"
+        android:layout_toRightOf="@+id/predmet_color"
+        android:layout_toEndOf="@+id/predmet_color"
+        android:layout_marginLeft="20dp"
         android:text="Datum: 16.4.2017"
         android:layout_below="@id/tip_ocjene"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/datum_ocjene"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
+
         />
     <TextView
+        android:layout_toRightOf="@+id/predmet_color"
+        android:layout_toEndOf="@+id/predmet_color"
+        android:layout_marginLeft="20dp"
         android:text="Nije htio odgovarat "
         android:layout_below="@id/datum_ocjene"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:id="@+id/napomena_ocjene"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
         />
 
     <TextView
-        android:textSize="28sp"
+        android:textColor="@color/black"
+        android:textSize="24sp"
         android:textStyle="bold"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
         android:id="@+id/ocjena_predmet"
         android:text="1"
-        android:layout_marginRight="20dp"
         android:layout_alignParentRight="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

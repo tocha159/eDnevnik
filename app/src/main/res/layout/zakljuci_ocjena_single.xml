@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:id="@+id/title"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_marginLeft="20dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:layout_marginBottom="5dp"
+            android:text="Pregled ocjena: "
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <View
+            android:layout_marginBottom="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_alignParentTop="true"
+            android:background="#33000000" />
+
+    </LinearLayout>
+
+   <TextView
+       android:layout_below="@+id/title"
+       android:textStyle="bold"
+       android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+       android:id="@+id/prosjek_text"
+       android:text="Prosjek: 4.5"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content" />
+
+    <EditText
+        android:layout_below="@+id/prosjek_text"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/ocjena_input"
+        android:hint="Unesite ocjenu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+    <Button
+        android:textColor="@color/WhiteSmoke"
+        android:background="@color/aluminum"
+        android:id="@+id/dialogButtonOK"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=" Zaključi"
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/ocjena_input"
+        />
+
+</RelativeLayout>

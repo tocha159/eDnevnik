@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <TextView
+        android:textColor="@color/black"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/naziv_predmeta"
+        android:text="Povijest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/predmet_color"
+        android:layout_toRightOf="@+id/predmet_color"
+        android:layout_toEndOf="@+id/predmet_color"
+        android:layout_marginLeft="20dp"/>
+    <TextView
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:id="@+id/profesor_naziv"
+        android:text="prof. Tomislav Pinjuh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/naziv_predmeta"
+        android:layout_alignLeft="@+id/naziv_predmeta"
+        android:layout_alignStart="@+id/naziv_predmeta"
+        android:layout_marginTop="1dp"
+       />
+    <TextView
+
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:id="@+id/predmet_status"
+        android:text="Zaključen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/profesor_naziv"
+        android:layout_alignLeft="@+id/naziv_predmeta"
+        android:layout_alignStart="@+id/naziv_predmeta"
+        android:layout_marginTop="1dp"
+        />
+
+    <ImageView
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:id="@+id/predmet_color"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/aluminum" />
+    />
+    <TextView
+        android:text="P"
+        android:textSize="28sp"
+        android:textAllCaps="true"
+        android:id="@+id/image_text"
+        android:textColor="#FFFFFF"
+        android:layout_alignLeft="@+id/predmet_color"
+        android:layout_alignTop="@+id/predmet_color"
+        android:layout_alignRight="@+id/predmet_color"
+        android:layout_alignBottom="@+id/predmet_color"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="1dp"
+        android:gravity="center"
+        />
+    <TextView
+        android:text="4"
+        android:textSize="28sp"
+        android:textAllCaps="true"
+        android:id="@+id/predmet_ocjena"
+        android:textColor="@color/black"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+       android:layout_marginTop="20dp"
+        android:gravity="center"
+        />
+
+
+</RelativeLayout>
