@@ -1,7 +1,9 @@
 package com.examples.your.ednevnik.Profesor;
 
+import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -55,9 +57,13 @@ public class ViewOcjeneStudent extends AppCompatActivity {
     TextView predmet_podaci;
     TextView zakljucna_podaci;
     FragmentManager fm;
+    List<ZakljucnaOcjena>ocjena;
 
 
     SharedPreferences prefs;
+
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -67,16 +73,56 @@ public class ViewOcjeneStudent extends AppCompatActivity {
 
     }
 
+    public void refresh(){
+        ocjena=ZakljucnaOcjena.find(ZakljucnaOcjena.class,"student = ? and predmet = ?",String.valueOf(s.getId()),String.valueOf(p.getId()));
+        if (ocjena.isEmpty())
+            zakljucna_podaci.setText("");
+        else
+            zakljucna_podaci.setText("Zaključna ocjena: "+ocjena.get(0).getZakljucna());
+
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home:
+                setResult(20);
                 finish();
                 break;
             case R.id.zakljuci_student:
-                ZakljuciOcjenaSingle p=new ZakljuciOcjenaSingle();
-                p.show(fm,"Zaključite ocjenu");
+                ZakljuciOcjenaSingle zk=new ZakljuciOcjenaSingle();
+                //p.getDialog().setTitle("Zaključite ocjenu");
+                zk.show(fm,"Zaključite ocjenu");
+                /*
+                ocjena=ZakljucnaOcjena.find(ZakljucnaOcjena.class,"student = ? and predmet = ?",String.valueOf(s.getId()),String.valueOf(p.getId()));
+                if (ocjena.isEmpty())
+                    zakljucna_podaci.setText("");
+                else
+                    zakljucna_podaci.setText("Zaključna ocjena: "+ocjena.get(0).getZakljucna());
+                    */
                 break;
+            case R.id.obrisi_student:
+                AlertDialog.Builder builder=new AlertDialog.Builder(this);
+                builder.setTitle("Zaključivanje ocjene");
+                builder.setMessage("Jeste li sigurni da želite obrisati zakjučnu ocjenu?");
+                builder.setNegativeButton("NE", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.setPositiveButton("DA", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ZakljucnaOcjena.deleteAll(ZakljucnaOcjena.class,"predmet = ? and student = ?", String.valueOf(p.getId()), String.valueOf(s.getId()));
+                        refresh();
+                        dialog.dismiss();
+
+                    }
+                });
+                builder.show();
+                break;
+
         }
         return true;
     }
@@ -90,12 +136,13 @@ public class ViewOcjeneStudent extends AppCompatActivity {
 
 
     }
-/*
+    /*
     @Override
     public void onBackPressed() {
 
     }
     */
+
 
     public void init(){
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -128,7 +175,7 @@ public class ViewOcjeneStudent extends AppCompatActivity {
         student_podaci.setText(s.getName()+" "+s.getSurname());
         predmet_podaci.setText(p.getNaziv_predmeta());
 
-        List<ZakljucnaOcjena>ocjena=ZakljucnaOcjena.find(ZakljucnaOcjena.class,"student = ? and predmet = ?",String.valueOf(s.getId()),String.valueOf(p.getId()));
+        ocjena=ZakljucnaOcjena.find(ZakljucnaOcjena.class,"student = ? and predmet = ?",String.valueOf(s.getId()),String.valueOf(p.getId()));
         if (ocjena.isEmpty())
             zakljucna_podaci.setText("");
         else

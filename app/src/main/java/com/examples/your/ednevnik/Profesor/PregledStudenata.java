@@ -149,7 +149,9 @@ public class PregledStudenata extends android.app.Fragment {
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case 0: // vidi ocjene
-                        startActivity(new Intent(getActivity(),ViewOcjeneStudent.class));
+                        Intent i=new Intent(getActivity(),ViewOcjeneStudent.class);
+                        startActivityForResult(i,2);
+                        //startActivity(new Intent(getActivity(),ViewOcjeneStudent.class));
                         break;
                     case 1: // vidi izostanke
                         startActivity(new Intent(getActivity(),ViewIzostanciStudent.class));
@@ -159,12 +161,19 @@ public class PregledStudenata extends android.app.Fragment {
                         break;
                     case 3: // zapisi izostanak
                         startActivity(new Intent(getActivity(),DodajIzostanak.class));
+                        getActivity().finish();
                         break;
 
                 }
             }
         });
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        studentAdapter.notifyDataSetChanged();
+    }
+
     public void properties(){
         predmet_odb.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

@@ -37,6 +37,8 @@ public class ZakljuciOcjenaSingle extends DialogFragment {
     TextView potvrdi_;
     TextView odustani_;
 
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.zakljuci_ocjena_single,container,false);
@@ -60,7 +62,6 @@ public class ZakljuciOcjenaSingle extends DialogFragment {
         }
         else {
             prosjek_text.setText("Prosjek: 0.0");
-            ocjena_=1;
         }
 
 
@@ -103,19 +104,37 @@ public class ZakljuciOcjenaSingle extends DialogFragment {
                 builder.setPositiveButton("DA", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        ZakljucnaOcjena.deleteAll(ZakljucnaOcjena.class,"predmet = ? and student = ?", String.valueOf(p.getId()), String.valueOf(s.getId()));
                         ZakljucnaOcjena zakljucna=new ZakljucnaOcjena(ocjena_,p,s);
                         zakljucna.save();
-                        //Toast.makeText(,"Uspiješno ste zaključili ocjenu",Toast.LENGTH_SHORT).show();
+                        getDialog().dismiss();
+
                     }
                 });
                 builder.show();
 
-
-
-
-
-                dismiss();
-
+            }
+        });
+        ocjena_grupa.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId){
+                    case R.id.ocjena_1:
+                        ocjena_=1;
+                        break;
+                    case R.id.ocjena_2:
+                        ocjena_=2;
+                        break;
+                    case R.id.ocjena_3:
+                        ocjena_=3;
+                        break;
+                    case R.id.ocjena_4:
+                        ocjena_=4;
+                        break;
+                    case R.id.ocjena_5:
+                        ocjena_=5;
+                        break;
+                }
             }
         });
 
@@ -146,6 +165,7 @@ public class ZakljuciOcjenaSingle extends DialogFragment {
 
     @Override
     public void onDismiss(DialogInterface dialog) {
+        ((ViewOcjeneStudent)getActivity()).refresh();
 
     }
 }

@@ -2,9 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/obrisi_student"
+        android:title="Zaključi"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_cancel_white_24dp"></item>
+    <item
         android:id="@+id/zakljuci_student"
         android:title="Zaključi"
         app:showAsAction="always"
-        android:icon="@drawable/ic_more_vert_white_24dp"></item>
+        android:icon="@drawable/ic_create_white_24dp"></item>
+
 
 </menu>
