@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
         <item
             android:id="@+id/moji_predmeti"
             android:icon="@android:drawable/ic_input_get"
@@ -10,14 +9,10 @@
             android:id="@+id/moje_ocjene"
             android:icon="@android:drawable/ic_input_get"
             android:title="Moje ocjene" />
-        <item
-            android:id="@+id/postavke"
-            android:title="Postavke"
-            android:icon="@drawable/ic_menu_manage" />
+
         <item
             android:id="@+id/odjava"
             android:icon="@android:drawable/ic_lock_power_off"
             android:title="Odjava" />
-    </group>
 
 </menu>

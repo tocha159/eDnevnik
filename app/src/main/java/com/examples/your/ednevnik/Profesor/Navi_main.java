@@ -32,6 +32,7 @@ public class Navi_main extends AppCompatActivity implements NavigationView.OnNav
     TextView osoba_username;
     Professor p;
     SharedPreferences prefs;
+    FragmentManager fm;
 
 
 
@@ -39,6 +40,7 @@ public class Navi_main extends AppCompatActivity implements NavigationView.OnNav
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navi_main);
+        fm=getFragmentManager();
         SugarContext.init(this);
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -61,8 +63,7 @@ public class Navi_main extends AppCompatActivity implements NavigationView.OnNav
         osoba_info.setText(p.getName()+" "+p.getSurname());
         osoba_username.setText(p.getUsername());
 
-
-
+        fm.beginTransaction().replace(R.id.content_frame,new PregledPredmeta()).commit();
     }
 
     @Override
@@ -100,7 +101,7 @@ public class Navi_main extends AppCompatActivity implements NavigationView.OnNav
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        FragmentManager fm=getFragmentManager();
+
         int id = item.getItemId();
 
         if (id == R.id.add_subject) {

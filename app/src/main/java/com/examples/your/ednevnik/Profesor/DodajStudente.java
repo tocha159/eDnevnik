@@ -92,7 +92,7 @@ public class DodajStudente extends android.app.Fragment {
 
                 }
                 else{
-                    Toast.makeText(getActivity(),"Niste odabrarli ni jednog učenika ili niste dodali ni jedan predmet",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(),"Niste odabrali učenike ili niste dodali predmete",Toast.LENGTH_LONG).show();
                 }
                 break;
         }

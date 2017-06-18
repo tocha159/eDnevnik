@@ -1,6 +1,6 @@
 package com.examples.your.ednevnik.Profesor;
 
-import android.app.Dialog;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -26,8 +26,8 @@ import com.examples.your.ednevnik.Model.Ocjena;
 import com.examples.your.ednevnik.Model.Predmet;
 import com.examples.your.ednevnik.Model.Student;
 import com.examples.your.ednevnik.Model.ZakljucnaOcjena;
-import com.examples.your.ednevnik.R;
 import com.examples.your.ednevnik.NonScrollListView;
+import com.examples.your.ednevnik.R;
 import com.orm.SugarContext;
 import com.pkmmte.view.CircularImageView;
 import com.squareup.picasso.Picasso;
@@ -54,6 +54,7 @@ public class ViewOcjeneStudent extends AppCompatActivity {
     TextView student_podaci;
     TextView predmet_podaci;
     TextView zakljucna_podaci;
+    FragmentManager fm;
 
 
     SharedPreferences prefs;
@@ -73,9 +74,8 @@ public class ViewOcjeneStudent extends AppCompatActivity {
                 finish();
                 break;
             case R.id.zakljuci_student:
-                Dialog dialog = new Dialog(this);
-                dialog.setContentView(R.layout.zakljuci_ocjena_single);
-                dialog.show();
+                ZakljuciOcjenaSingle p=new ZakljuciOcjenaSingle();
+                p.show(fm,"Zaključite ocjenu");
                 break;
         }
         return true;
@@ -111,8 +111,9 @@ public class ViewOcjeneStudent extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        s=Student.findById(Student.class,prefs.getLong("id_student_info",1));
-        p=Predmet.findById(Predmet.class, prefs.getLong("id_predmet_info", 1));
+        fm=getFragmentManager();
+        s= Student.findById(Student.class,prefs.getLong("id_student_info",1));
+        p= Predmet.findById(Predmet.class, prefs.getLong("id_predmet_info", 1));
 
 
         File file = new File(Environment.getExternalStorageDirectory().getPath() +"/Dnevnik/"+s.getUsername()+".jpg");

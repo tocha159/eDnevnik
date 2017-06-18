@@ -41,6 +41,12 @@
             app:layout_marginLeftPercent="5%"
             app:layout_heightPercent="10%"
             app:cardElevation="2dp">
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginRight="20dp"
+                android:layout_gravity="right|center"
+                android:background="@drawable/ic_arrow_drop_down_black_24dp" />
 
             <Spinner
                 android:id="@+id/predmet_odb"

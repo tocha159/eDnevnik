@@ -36,14 +36,15 @@ public class StudentNavDraw extends AppCompatActivity
     CircularImageView imageView;
     Student s;
     SharedPreferences prefs;
+    FragmentManager fm;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_nav_draw);
+        fm=getFragmentManager();
         SugarContext.init(this);
-        setTitle("Izbornik");
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -77,6 +78,8 @@ public class StudentNavDraw extends AppCompatActivity
             Picasso.with(this).load(R.drawable.logo).into(imageView);
 
         }
+
+        fm.beginTransaction().replace(R.id.content_frame_student,new StudentPregledPredmeta()).commit();
     }
 
     @Override
@@ -110,7 +113,7 @@ public class StudentNavDraw extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        FragmentManager fm=getFragmentManager();
+
         int id = item.getItemId();
 
         if (id == R.id.moji_predmeti) {

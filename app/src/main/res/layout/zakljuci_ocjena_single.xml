@@ -3,57 +3,133 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <LinearLayout
-        android:id="@+id/title"
-        android:orientation="vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_marginLeft="20dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textStyle="bold"
-            android:textColor="#000000"
-            android:layout_marginBottom="5dp"
-            android:text="Pregled ocjena: "
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <View
-            android:layout_marginBottom="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_alignParentTop="true"
-            android:background="#33000000" />
-
-    </LinearLayout>
 
    <TextView
-       android:layout_below="@+id/title"
+       android:textSize="19sp"
        android:textStyle="bold"
+       android:layout_marginTop="5dp"
+       android:layout_marginLeft="100dp"
        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
        android:id="@+id/prosjek_text"
        android:text="Prosjek: 4.5"
        android:layout_width="wrap_content"
        android:layout_height="wrap_content" />
 
-    <EditText
-        android:layout_below="@+id/prosjek_text"
-        android:layout_marginBottom="10dp"
+
+    <RadioGroup
         android:layout_marginTop="10dp"
-        android:id="@+id/ocjena_input"
-        android:hint="Unesite ocjenu"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/prosjek_text"
+        android:orientation="horizontal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:id="@+id/ocjena_grupa">
+        <RadioButton
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textStyle="bold"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:text="1"
+            android:button="@null"
+            android:drawableBottom="?android:attr/listChoiceIndicatorSingle"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ocjena_1" />
+        <RadioButton
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textStyle="bold"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:text="2"
+            android:button="@null"
+            android:drawableBottom="?android:attr/listChoiceIndicatorSingle"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ocjena_2" />
+        <RadioButton
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textStyle="bold"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:text="3"
+            android:button="@null"
+            android:drawableBottom="?android:attr/listChoiceIndicatorSingle"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ocjena_3" />
+        <RadioButton
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textStyle="bold"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:text="4"
+            android:button="@null"
+            android:drawableBottom="?android:attr/listChoiceIndicatorSingle"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ocjena_4" />
+        <RadioButton
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textStyle="bold"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:text="5"
+            android:button="@null"
+            android:drawableBottom="?android:attr/listChoiceIndicatorSingle"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ocjena_5" />
+    </RadioGroup>
 
 
-    <Button
-        android:textColor="@color/WhiteSmoke"
+    <LinearLayout
+        android:layout_below="@+id/ocjena_grupa"
         android:background="@color/aluminum"
-        android:id="@+id/dialogButtonOK"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text=" Zaključi"
-        android:layout_marginTop="5dp"
-        android:layout_below="@+id/ocjena_input"
-        />
+        android:orientation="horizontal"
+        android:divider="?android:attr/dividerVertical"
+        android:dividerPadding="16dip"
+        android:showDividers="middle">
+
+        <!-- id must match corresponding menu item id -->
+        <LinearLayout
+            android:id="@+id/action_done"
+            style="@style/EditEventCustomActionButton">
+            <ImageView
+                android:src="@drawable/ic_done_white_24dp"
+                style="@style/EditEventCustomActionButtonImage" />
+
+
+            <TextView
+                android:textSize="14sp"
+                android:id="@+id/potvrdi"
+                android:text="Zaključi"
+                style="@style/EditEventCustomActionButtonText" />
+
+        </LinearLayout>
+
+        <!-- id must match corresponding menu item id -->
+        <LinearLayout
+            android:id="@+id/action_cancel"
+            style="@style/EditEventCustomActionButton">
+            <ImageView
+                android:src="@drawable/ic_close_white_24dp"
+                style="@style/EditEventCustomActionButtonImage" />
+
+            <TextView
+                android:textSize="14sp"
+                android:id="@+id/odustani"
+                android:text="Odustani"
+                style="@style/EditEventCustomActionButtonText" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </RelativeLayout>
