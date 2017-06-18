@@ -6,12 +6,15 @@
     android:background="@color/aluminum"
     android:gravity="bottom"
     android:orientation="vertical"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingLeft="32dp"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:theme="@style/ThemeOverlay.AppCompat.Dark"
     android:weightSum="1">
 
     <com.pkmmte.view.CircularImageView
+        app:border="true"
+        app:border_color="#EEEEEE"
+        app:border_width="2dp"
         android:id="@+id/slika_info"
         android:layout_width="85dp"
         android:layout_height="85dp"

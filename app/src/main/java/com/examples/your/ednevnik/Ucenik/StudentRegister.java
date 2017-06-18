@@ -1,8 +1,12 @@
 package com.examples.your.ednevnik.Ucenik;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
@@ -46,15 +50,21 @@ public class StudentRegister extends AppCompatActivity {
     TextView link_login;
     RequestQueue red;
     List<Student> students;
+    ProgressDialog dialog;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profesor_register);
+        setContentView(R.layout.activity_student_register);
         init();
         propertis();
 
+    }
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(StudentRegister.this,StudentLogin.class));
+        finish();
     }
     public void init(){
         SugarContext.init(this);
@@ -65,6 +75,7 @@ public class StudentRegister extends AppCompatActivity {
         input_password= (EditText) findViewById(R.id.input_password);
         btnsignup= (Button) findViewById(R.id.btn_signup);
         link_login= (TextView) findViewById(R.id.link_login);
+        dialog=new ProgressDialog(this);
 
     }
     public void propertis(){
@@ -79,97 +90,115 @@ public class StudentRegister extends AppCompatActivity {
         btnsignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String name_=input_name.getText().toString();
-                final String surname_=input_surname.getText().toString();
-                final String username_=input_username.getText().toString();
-                final String password_=input_password.getText().toString();
+                dialog.setMessage("Pricekajte molim...");
+                dialog.show();
 
-                if(name_.equals("")||(surname_.equals("")||username_.equals("")||password_.equals(""))){
-                    Toast.makeText(getApplicationContext(), R.string.message_info_noinput,Toast.LENGTH_SHORT).show();
+                if (isNetworkAvailable()){
+                    final String name_=input_name.getText().toString();
+                    final String surname_=input_surname.getText().toString();
+                    final String username_=input_username.getText().toString();
+                    final String password_=input_password.getText().toString();
+
+                    if(name_.equals("")||(surname_.equals("")||username_.equals("")||password_.equals(""))){
+                        Toast.makeText(getApplicationContext(), R.string.message_info_noinput,Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        if(Student.find(Student.class, "username = ?", username_).isEmpty()){
+                            StringRequest stringRequest=new StringRequest(Request.Method.GET, Constants.API_LINK,
+                                    new Response.Listener<String>() {
+                                        @Override
+                                        public void onResponse(String response) {
+                                            try {
+                                                JSONArray json = new JSONArray(response);
+                                                students=new ArrayList<>();
+                                                for (int i = 0; i < json.length(); i++) {
+                                                    if(username_.equals(json.getJSONObject(i).getString("login"))){
+                                                        Picasso.with(getApplicationContext())
+                                                                .load(json.getJSONObject(i).getString("avatar_url"))
+                                                                .into(new Target() {
+                                                                    @Override
+                                                                    public void onBitmapLoaded(final Bitmap bitmap, Picasso.LoadedFrom from) {
+                                                                        new Thread(new Runnable() {
+                                                                            @Override
+                                                                            public void run() {
+                                                                                File direct = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/Dnevnik");
+                                                                                if (!direct.exists()) {
+                                                                                    direct.mkdirs();
+                                                                                }
+                                                                                File file = new File(Environment.getExternalStorageDirectory().getPath() +"/Dnevnik/"+username_+".jpg");
+                                                                                try
+                                                                                {
+                                                                                    file.createNewFile();
+                                                                                    FileOutputStream ostream = new FileOutputStream(file);
+                                                                                    bitmap.compress(Bitmap.CompressFormat.JPEG, 75, ostream);
+                                                                                    ostream.close();
+                                                                                }
+                                                                                catch (Exception e)
+                                                                                {
+                                                                                    e.printStackTrace();
+                                                                                }
+
+                                                                            }
+                                                                        }).start();
+                                                                    }
+
+                                                                    @Override
+                                                                    public void onBitmapFailed(Drawable errorDrawable) {
+
+                                                                    }
+
+                                                                    @Override
+                                                                    public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+                                                                    }
+                                                                });
+                                                        Student st= new
+                                                                Student(name_,
+                                                                surname_,
+                                                                json.getJSONObject(i).getString("avatar_url"),
+                                                                username_,
+                                                                password_);
+                                                        st.save();
+
+                                                        Toast.makeText(getApplicationContext(), R.string.message_info_succregister,Toast.LENGTH_SHORT).show();
+                                                        startActivity(new Intent(StudentRegister.this,StudentLogin.class));
+                                                        finish();
+                                                        return;
+                                                    }
+                                                }
+                                                Toast.makeText(getApplicationContext(), "Ovaj korisnik ne postoji",Toast.LENGTH_SHORT).show();
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    }, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+
+                                }
+                            });
+                            red.add(stringRequest);
+                        }
+                        else{
+                            Toast.makeText(getApplicationContext(), R.string.message_info_alreadyreg,Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+
                 }
                 else {
-                    if(Student.find(Student.class, "username = ?", username_).isEmpty()){
-                        StringRequest stringRequest=new StringRequest(Request.Method.GET, Constants.API_LINK,
-                                new Response.Listener<String>() {
-                                    @Override
-                                    public void onResponse(String response) {
-                                        try {
-                                            JSONArray json = new JSONArray(response);
-                                            students=new ArrayList<>();
-                                            for (int i = 0; i < json.length(); i++) {
-                                                if(username_.equals(json.getJSONObject(i).getString("login"))){
-                                                    Picasso.with(getApplicationContext())
-                                                            .load(json.getJSONObject(i).getString("avatar_url"))
-                                                            .into(new Target() {
-                                                                @Override
-                                                                public void onBitmapLoaded(final Bitmap bitmap, Picasso.LoadedFrom from) {
-                                                                    new Thread(new Runnable() {
-                                                                        @Override
-                                                                        public void run() {
-                                                                            File direct = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/Dnevnik");
-                                                                            if (!direct.exists()) {
-                                                                                direct.mkdirs();
-                                                                            }
-                                                                            File file = new File(Environment.getExternalStorageDirectory().getPath() +"/Dnevnik/"+username_+".jpg");
-                                                                            try
-                                                                            {
-                                                                                file.createNewFile();
-                                                                                FileOutputStream ostream = new FileOutputStream(file);
-                                                                                bitmap.compress(Bitmap.CompressFormat.JPEG, 75, ostream);
-                                                                                ostream.close();
-                                                                            }
-                                                                            catch (Exception e)
-                                                                            {
-                                                                                e.printStackTrace();
-                                                                            }
-
-                                                                        }
-                                                                    }).start();
-                                                                }
-
-                                                                @Override
-                                                                public void onBitmapFailed(Drawable errorDrawable) {
-
-                                                                }
-
-                                                                @Override
-                                                                public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-                                                                }
-                                                            });
-                                                    Student st= new
-                                                            Student(name_,
-                                                            surname_,
-                                                            json.getJSONObject(i).getString("avatar_url"),
-                                                            username_,
-                                                            password_);
-                                                    st.save();
-
-                                                    Toast.makeText(getApplicationContext(), R.string.message_info_succregister,Toast.LENGTH_SHORT).show();
-                                                    startActivity(new Intent(StudentRegister.this,StudentLogin.class));
-                                                    finish();
-                                                    return;
-                                                }
-                                            }
-                                            Toast.makeText(getApplicationContext(), "Ovaj korisnik ne postoji",Toast.LENGTH_SHORT).show();
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                        }
-                                    }
-                                }, new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-
-                            }
-                        });
-                        red.add(stringRequest);
-                    }
-                    else{
-                        Toast.makeText(getApplicationContext(), R.string.message_info_alreadyreg,Toast.LENGTH_SHORT).show();
-                    }
-
+                    Toast.makeText(getApplicationContext(),"Nema internet konekcije",Toast.LENGTH_SHORT).show();
                 }
+                if (dialog.isShowing())
+                    dialog.dismiss();
             }
         });
+    }
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo =
+                connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }

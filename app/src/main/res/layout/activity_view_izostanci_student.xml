@@ -96,14 +96,14 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         >
-        <com.examples.your.ednevnik.Ucenik.NonScrollListView
+        <com.examples.your.ednevnik.NonScrollListView
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:id="@+id/izostanci_student"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        </com.examples.your.ednevnik.Ucenik.NonScrollListView>
+        </com.examples.your.ednevnik.NonScrollListView>
 
     </android.support.v4.widget.NestedScrollView>
 

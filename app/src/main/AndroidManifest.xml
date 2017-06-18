@@ -78,7 +78,8 @@
         <activity
             android:name=".Ucenik.StudentNavDraw"
             android:label="@string/title_activity_student_nav_draw"
-            android:theme="@style/ThemeApp.NoActionBar"></activity>
+            android:theme="@style/ThemeApp.Light"
+            android:windowSoftInputMode="adjustPan"></activity>
     </application>
 
 </manifest>

@@ -220,12 +220,14 @@ public class PregledStudenata extends android.app.Fragment {
                             Razred r = Razred.findById(Razred.class,razred.getId());
                             Izostanak.deleteAll(Izostanak.class, "ucenik = ? and predmet = ?",String.valueOf(r.getStudent().getId()),String.valueOf(r.getPredmet().getId()));
                             Ocjena.deleteAll(Ocjena.class, "ucenik = ? and predmet = ?",String.valueOf(r.getStudent().getId()),String.valueOf(r.getPredmet().getId()));
+                            ZakljucnaOcjena.deleteAll(ZakljucnaOcjena.class, "student = ? and predmet = ?",String.valueOf(r.getStudent().getId()),String.valueOf(r.getPredmet().getId()));
                             r.delete();
 
                             Toast.makeText(getActivity(),"Uspiješno ste obrisali učenika",Toast.LENGTH_SHORT).show();
                         }catch (Exception e){
                             Toast.makeText(getActivity(),"Ne možete obrisati učenika jer postoje zapisi(ocjene, izostanci)",Toast.LENGTH_SHORT).show();
                         }
+                        //spinnerAdapter=new SpinnerAdapter(getActivity(),R.layout.predmeti_customlist,Predmet.find(Predmet.class,"profesor = ?",String.valueOf(prefs.getLong("profid", 1))));
                         studentAdapter.remove(razred);
                         studentAdapter.filter.remove(razred);
                         studenti_get.setAdapter(studentAdapter);

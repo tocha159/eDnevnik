@@ -19,11 +19,17 @@
                 android:id="@+id/view_student"
                 android:title="Pregled ucenika"
                 android:icon="@android:drawable/ic_input_get" />
-            <item
-                android:id="@+id/prof_odjava"
-                android:title="Odjava"
-                android:icon="@android:drawable/ic_lock_power_off" />
+
         </menu>
+
     </item>
+    <item
+        android:id="@+id/postavke"
+        android:title="Postavke"
+        android:icon="@drawable/ic_menu_manage" />
+    <item
+        android:id="@+id/prof_odjava"
+        android:title="Odjava"
+        android:icon="@android:drawable/ic_lock_power_off" />
 
 </menu>

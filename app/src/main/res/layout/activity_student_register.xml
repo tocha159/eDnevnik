@@ -13,14 +13,15 @@
         android:paddingTop="56dp"
         android:paddingLeft="24dp"
         android:paddingRight="24dp"
-        android:weightSum="1">v
+        android:weightSum="1">
 
         <ImageView
-            android:background="@drawable/user_navi"
+            android:background="@drawable/student"
             android:layout_width="150dp"
             android:layout_height="130dp"
             android:layout_marginBottom="24dp"
             android:layout_gravity="center_horizontal"
+            android:layout_weight="0.24"
             />
 
         <!--  Name Label -->
@@ -81,7 +82,7 @@
 
         <!-- Signup Button -->
         <android.support.v7.widget.AppCompatButton
-            android:textColor="@color/white"
+            android:textColor="@color/White"
             android:id="@+id/btn_signup"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"

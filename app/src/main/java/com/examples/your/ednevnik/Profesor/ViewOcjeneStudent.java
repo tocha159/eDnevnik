@@ -27,7 +27,7 @@ import com.examples.your.ednevnik.Model.Predmet;
 import com.examples.your.ednevnik.Model.Student;
 import com.examples.your.ednevnik.Model.ZakljucnaOcjena;
 import com.examples.your.ednevnik.R;
-import com.examples.your.ednevnik.Ucenik.NonScrollListView;
+import com.examples.your.ednevnik.NonScrollListView;
 import com.orm.SugarContext;
 import com.pkmmte.view.CircularImageView;
 import com.squareup.picasso.Picasso;

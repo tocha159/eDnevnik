@@ -1,6 +1,9 @@
 package com.examples.your.ednevnik.Ucenik;
 
+import android.app.AlertDialog;
 import android.app.FragmentManager;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
@@ -15,7 +18,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.examples.your.ednevnik.MainActivity;
 import com.examples.your.ednevnik.Model.Student;
 import com.examples.your.ednevnik.R;
 import com.orm.SugarContext;
@@ -38,6 +43,7 @@ public class StudentNavDraw extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_nav_draw);
         SugarContext.init(this);
+        setTitle("Izbornik");
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -75,12 +81,7 @@ public class StudentNavDraw extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+
     }
 
     @Override
@@ -115,8 +116,29 @@ public class StudentNavDraw extends AppCompatActivity
         if (id == R.id.moji_predmeti) {
             fm.beginTransaction().replace(R.id.content_frame_student,new StudentPregledPredmeta()).commit();
         } else if (id == R.id.moje_ocjene) {
-
+            fm.beginTransaction().replace(R.id.content_frame_student,new MojeOcjene()).commit();
         }
+        else if (id == R.id.odjava) {
+            AlertDialog.Builder builder=new AlertDialog.Builder(this);
+            builder.setMessage("Odaberite opciju");
+            builder.setMessage("Jeste li sigurni da se  želite odjaviti?");
+            builder.setNegativeButton("NE", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            builder.setPositiveButton("DA", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    startActivity(new Intent(StudentNavDraw.this, MainActivity.class));
+                    Toast.makeText(getApplicationContext(),"Uspiješno ste se odjavili!!",Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+            });
+            builder.show();
+        }
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

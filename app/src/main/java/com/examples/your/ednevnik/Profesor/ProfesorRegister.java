@@ -13,9 +13,6 @@ import com.examples.your.ednevnik.Model.Professor;
 import com.examples.your.ednevnik.R;
 import com.orm.SugarContext;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ProfesorRegister extends AppCompatActivity {
     EditText input_name;
     EditText input_surname;
@@ -31,6 +28,13 @@ public class ProfesorRegister extends AppCompatActivity {
         init();
         propertis();
     }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(ProfesorRegister.this,ProfesorLogin.class));
+        finish();
+    }
+
     public void init(){
         SugarContext.init(this);
         input_name= (EditText) findViewById(R.id.input_name);

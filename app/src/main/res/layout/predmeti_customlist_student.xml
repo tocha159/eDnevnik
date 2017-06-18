@@ -9,7 +9,7 @@
         android:textColor="@color/black"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/naziv_predmeta"
-        android:text="Povijest"
+        android:text="Biologija"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/predmet_color"
@@ -17,32 +17,19 @@
         android:layout_toEndOf="@+id/predmet_color"
         android:layout_marginLeft="20dp"/>
     <TextView
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:id="@+id/profesor_naziv"
-        android:text="prof. Tomislav Pinjuh"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_below="@+id/naziv_predmeta"
-        android:layout_alignLeft="@+id/naziv_predmeta"
-        android:layout_alignStart="@+id/naziv_predmeta"
-        android:layout_marginTop="1dp"
-       />
-    <TextView
-
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:id="@+id/predmet_status"
-        android:text="Zaključen"
+        android:id="@+id/naziv_profesora"
+        android:text="prof marko Maric"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/profesor_naziv"
-        android:layout_alignLeft="@+id/naziv_predmeta"
-        android:layout_alignStart="@+id/naziv_predmeta"
-        android:layout_marginTop="1dp"
-        />
+        android:layout_toRightOf="@+id/predmet_color"
+        android:layout_toEndOf="@+id/predmet_color"
+        android:layout_marginLeft="20dp"/>
 
     <ImageView
-        android:layout_width="64dp"
-        android:layout_height="64dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:id="@+id/predmet_color"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
@@ -50,8 +37,7 @@
         android:background="@color/aluminum" />
     />
     <TextView
-        android:text="P"
-        android:textSize="28sp"
+        android:textSize="24sp"
         android:textAllCaps="true"
         android:id="@+id/image_text"
         android:textColor="#FFFFFF"
@@ -62,19 +48,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="1dp"
-        android:gravity="center"
-        />
-    <TextView
-        android:text="4"
-        android:textSize="28sp"
-        android:textAllCaps="true"
-        android:id="@+id/predmet_ocjena"
-        android:textColor="@color/black"
-        android:layout_alignParentRight="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="20dp"
         android:gravity="center"
         />
 

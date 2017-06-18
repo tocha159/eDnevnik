@@ -41,6 +41,7 @@ public class StudentPregledPredmeta extends android.app.Fragment{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v=inflater.inflate(R.layout.fragment_student_pregled_predmeta, container, false);
+        getActivity().setTitle("Moji predmeti");
         prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         pregled_predmeta= (ListView) v.findViewById(R.id.pregled_predmeta);
         adapter=new PregledPredmetaAdapter(getActivity(),R.layout.predmeti_student_list, Razred.find(Razred.class,"student = ?",String.valueOf(prefs.getLong("studid", 1))));

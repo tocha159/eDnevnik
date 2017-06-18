@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.examples.your.ednevnik.Profesor.ProfesorLogin;
 import com.examples.your.ednevnik.Ucenik.StudentLogin;
@@ -12,14 +12,13 @@ import com.examples.your.ednevnik.Ucenik.StudentLogin;
 public class MainActivity extends AppCompatActivity {
 
 
-    private Button prof, std;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button prof=(Button) findViewById(R.id.btn_prof);
-        final Button std=(Button) findViewById(R.id.btn_std);
+        ImageButton prof=(ImageButton) findViewById(R.id.btn_prof);
+        ImageButton std=(ImageButton) findViewById(R.id.btn_std);
 
         prof.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -35,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent stdIntent= new Intent(MainActivity.this,StudentLogin.class);
                 startActivity(stdIntent);
+                finish();
             }
         });
     }
